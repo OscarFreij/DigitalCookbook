@@ -3,13 +3,37 @@
 class DB
 {
     public $conn;
+    private $accessFilePath = "access.json";
+
+    private function Get_Credentials()
+    {
+        try
+        {
+            /*
+            // Old and big version
+            $myfile = fopen($accessFilePath, "r") or die("Unable to open file!");
+            $fileContent = fread($myfile,filesize($accessFilePath));
+            fclose($myfile);
+            */
+
+            // New and small version
+            fclose($fileContent = fread(fopen($accessFilePath, "r"),filesize($accessFilePath)));
+            return json_decode($fileContent);
+        }
+        catch (Exeptiopn $e)
+        {
+            echo "Error: $e";
+            return false;
+        }
+    }
 
     public function Open_Connection()
     {
-        $servername = "localhost";
-        $dbname = "";
-        $username = "";
-        $password = "";
+        $credentials = Get_Credentials();
+        $servername = $credentials['servername'];
+        $dbname = $credentials['dbname'];
+        $username = base64_decode($credentials['username']);
+        $password = base64_decode($credentials['password']);
 
         try
         {
