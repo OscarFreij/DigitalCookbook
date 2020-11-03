@@ -3,5 +3,5 @@ Require all denied
 </Files>
 
 RewriteEngine on
-RewriteCond %{HTTP_HOST} ^18osfr.ssis.nu/GYProjekt/$ [NC]
-RewriteRule ^(.*)$ https://18osfr.ssis.nu/GYProjekt/public_html/index.php$1 [R=301,L,NE]
+RewriteRule ^$ public_html/index.php [L,END]
+RewriteRule ^(.*)$ public_html/$1 [L,END]
