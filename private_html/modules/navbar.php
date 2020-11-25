@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark ">
     <a class="navbar-brand" href="#">
         <img src="" width="30" height="30" class="d-inline-block align-top" alt="" loading="lazy">
         DigitalCookbook
@@ -9,32 +9,16 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="#">Hem <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
+                <a class="nav-link" href="#">Inköpslista</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
+                <a class="nav-link" href="#">Bläddra recept</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Dropdown
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                </div>
+                <a class="nav-link" href="#">Om hemsidan</a>
             </li>
         </ul>
         <ul class="navbar-nav">
@@ -43,7 +27,10 @@
                 Konto
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown2">
-                    <a class="dropdown-item" href="#">Konto</a>
+                    <a class="dropdown-item" href="#">Mitt konto</a>
+                    <a class="dropdown-item" href="#">Min kokbok</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Inställningar</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#">Login</a>
                     <a class="dropdown-item" href="#">Logout</a>
