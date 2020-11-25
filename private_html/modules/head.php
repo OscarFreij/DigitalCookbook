@@ -11,6 +11,7 @@
     <!-- Other CSS -->
     <link rel="stylesheet" href="static/css/master.css">
     <link rel="stylesheet" href="static/css/navbar.css">
+    <link rel="stylesheet" href="static/css/media-navbar.css">
 
     <!-- JS -->
     <!-- Jquery JS -->

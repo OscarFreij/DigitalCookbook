@@ -9,16 +9,16 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="#">Hem <span class="sr-only">(current)</span></a>
+                <a class="nav-link" navType="normal" href="#">Hem <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Inköpslista</a>
+                <a class="nav-link" navType="normal" href="#">Inköpslista</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Bläddra recept</a>
+                <a class="nav-link" navType="normal" href="#">Bläddra recept</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Om hemsidan</a>
+                <a class="nav-link" navType="normal" href="#">Om hemsidan</a>
             </li>
         </ul>
         <ul class="navbar-nav">

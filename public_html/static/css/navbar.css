@@ -3,20 +3,25 @@
     background-color: var(--Main-color);
 }
 
-.navbar .nav-item:not(:last-child) {
-    margin-right: 35px;
+
+.navbar .nav-item [navType="normal"]
+{
+    margin: 0px 25px;
 }
 
-.dropdown-toggle::after {
+.dropdown-toggle::after
+{
     transition: transform 0.15s linear; 
 }
 
-.show.dropdown .dropdown-toggle::after {
+.show.dropdown .dropdown-toggle::after
+{
     transform: translateY(3px);
 }
 
 
-.dropdown-menu {
+.dropdown-menu
+{
     margin-top: 0;
 }
 
@@ -33,6 +38,11 @@
     color: #fff;
     border-radius: 5px;
     transition: 0.15s;
+}
+
+.nav-item:hover > *
+{
+    color: #fff !important;
 }
 
 .nav-item
