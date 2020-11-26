@@ -4,7 +4,7 @@ $module_path = "../private_html/modules/";
 $pages_path = "../private_html/pages/";
 $vendor_path = "../private_html/vendor/";
 
-
+$active_page = "";
 
 /*
  * Variabels in use for page selection.
@@ -12,6 +12,15 @@ $vendor_path = "../private_html/vendor/";
  * GET - recipeID - Recipe identification string.
  * GET - search - search querry as URLEncoded JSON string.
  */
+
+if (isset($_GET['page']))
+{
+    $active_page = $_GET['page'];
+}
+else
+{
+    $active_page = "home";
+}
 
 ?>
 
@@ -27,7 +36,9 @@ Require $module_path."head.php";
     Require $module_path."navbar.php";
     ?>
     <div id="wrapper-content">
-
+    <?php
+    Include $pages_path.$active_page.".php";
+    ?>
     </div>
 </div>
     
