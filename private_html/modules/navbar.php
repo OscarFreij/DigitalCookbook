@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-dark ">
-    <a class="navbar-brand" href="/">
+    <a class="navbar-brand" href="/<?=$site_pre_url?>">
         <img src="" width="30" height="30" class="d-inline-block align-top" alt="" loading="lazy">
         DigitalCookbook
     </a>
@@ -9,16 +9,16 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item <?php if($active_page == "home") echo("active")?>">
-                <a class="nav-link" navType="normal" href="/?page=home">Hem <span class="sr-only">(current)</span></a>
+                <a class="nav-link" navType="normal" href="/<?=$site_pre_url?>?page=home">Hem</a>
             </li>
             <li class="nav-item <?php if($active_page == "shoppinglist") echo("active")?>">
-                <a class="nav-link" navType="normal" href="/?page=shoppinglist">Inköpslista</a>
+                <a class="nav-link" navType="normal" href="/<?=$site_pre_url?>?page=shoppinglist">Inköpslista</a>
             </li>
             <li class="nav-item <?php if($active_page == "browse") echo("active")?>">
-                <a class="nav-link" navType="normal" href="/?page=browse">Bläddra recept</a>
+                <a class="nav-link" navType="normal" href="/<?=$site_pre_url?>?page=browse">Bläddra recept</a>
             </li>
             <li class="nav-item <?php if($active_page == "about") echo("active")?>">
-                <a class="nav-link" navType="normal" href="/?page=about">Om hemsidan</a>
+                <a class="nav-link" navType="normal" href="/<?=$site_pre_url?>?page=about">Om hemsidan</a>
             </li>
         </ul>
         <ul class="navbar-nav">
@@ -27,13 +27,13 @@
                 Konto
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown2">
-                    <a class="dropdown-item" href="/?page=account">Mitt konto</a>
-                    <a class="dropdown-item" href="/?page=cookbook">Min kokbok</a>
+                    <a class="dropdown-item" href="/<?=$site_pre_url?>?page=account">Mitt konto</a>
+                    <a class="dropdown-item" href="/<?=$site_pre_url?>?page=cookbook">Min kokbok</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="/?page=settings">Inställningar</a>
+                    <a class="dropdown-item" href="/<?=$site_pre_url?>?page=settings">Inställningar</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Login</a>
-                    <a class="dropdown-item" href="#">Logout</a>
+                    <a class="dropdown-item" href="">Login</a>
+                    <a class="dropdown-item" href="">Logout</a>
                 </div>
             </li>
         </ul>

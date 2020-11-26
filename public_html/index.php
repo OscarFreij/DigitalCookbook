@@ -4,6 +4,8 @@ $module_path = "../private_html/modules/";
 $pages_path = "../private_html/pages/";
 $vendor_path = "../private_html/vendor/";
 
+$site_pre_url = "GYProjekt/"; // fix for a weird .htaccess bug... Talk to Daka!
+
 $active_page = "";
 
 /*
