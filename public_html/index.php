@@ -1,5 +1,9 @@
 <?php
 
+require_once '../private_html/vendor/autoload.php';
+
+require_once '../private_html/config.php';
+
 $module_path = "../private_html/modules/";
 $pages_path = "../private_html/pages/";
 $vendor_path = "../private_html/vendor/";
@@ -30,6 +34,17 @@ if (isset($_GET['page']))
             break;
         }
     }
+
+    if ($active_page == "redirect")
+    {
+        require "../public_html/redirect.php";
+        exit;
+    }
+    else if ($active_page == "logout")
+    {
+        require "../public_html/logout.php";
+        exit;
+    }
 }
 else
 {
@@ -46,19 +61,17 @@ else
 Require $module_path."head.php";
 ?>
 <body>
-<div id="wrapper">
-    <?php
-    // Require navbar.
-    Require $module_path."navbar.php";
-    ?>
-    <div id="wrapper-content">
-    <?php
-    // Include the active page, currenty no 404 or 403 page :(
-    Include $pages_path.$active_page.".php";
-    ?>
-    </div>
-</div>
-    
-
+    <div id="wrapper">
+        <?php
+        // Require navbar.
+        Require $module_path."navbar.php";
+        ?>
+        <div id="wrapper-content">
+        <?php
+        // Include the active page, currenty no 404 or 403 page :(
+        Include $pages_path.$active_page.".php";
+        ?>
+        </div>
+    </div>  
 </body>
 </html>

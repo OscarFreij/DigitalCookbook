@@ -32,8 +32,23 @@
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="/<?=$site_pre_url?>?page=settings">Inställningar</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="">Login</a>
-                    <a class="dropdown-item" href="">Logout</a>
+                    <?php
+                        if (isset($_SESSION['email']))
+                        {
+                            if ($_SESSION['email'] != "")
+                            {
+                                echo('<a class="dropdown-item" href="/'.$site_pre_url.'?page=logout">Logout</a>');
+                            }
+                            else
+                            {
+                                echo('<a class="dropdown-item" href="'.$client->createAuthUrl().'">Login</a>');
+                            }
+                        }
+                        else
+                        {
+                            echo('<a class="dropdown-item" href="'.$client->createAuthUrl().'">Login</a>');
+                        }
+                    ?>
                 </div>
             </li>
         </ul>
