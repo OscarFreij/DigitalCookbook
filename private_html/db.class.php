@@ -5,6 +5,7 @@ class DB
     public $conn;
     private $accessFilePath = "access.json";
 
+    // -- Connection Functions Start --//
     private function Get_Credentials()
     {
         try
@@ -50,6 +51,42 @@ class DB
         $conn = null;
         echo "Connection closed";
     }
+    //-- Connection Functions End --//
+
+    //-- Account Management Functions Start --//
+    public function GetUserDetailsById($userId)
+    {
+
+    }
+
+    public function GetUserDetailsByEmail($email)
+    {
+
+    }
+
+    public function CreateAccount($accountData)
+    {
+
+    }
+    //-- Account Management Functions End --//
+
+    //-- Recepie Management Functions Start --//
+    public function GetRecepie($recepieID)
+    {
+
+    }
+    
+    public function CreateRecepie($recepieID)
+    {
+        
+    }
+    
+    public function AddRecepieRelation($recepieID, $userId)
+    {
+        
+    }
+
+    //-- Recepie Management Functions End --//
 }
 
 ?>
