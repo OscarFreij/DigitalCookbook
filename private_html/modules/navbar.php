@@ -24,6 +24,12 @@
         <ul class="navbar-nav">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle <?php if($active_page == "account" || $active_page == "cookbook" || $active_page == "settings") echo("active")?>" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <?php
+                    if(isset($_SESSION['email']))
+                    {
+                        echo('<img src="'.$_SESSION['picture'].'" width="30" height="30" class="d-inline-block align-top" alt="" loading="lazy">');
+                    }
+                ?>
                 Konto
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown2">
