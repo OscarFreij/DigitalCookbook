@@ -36,8 +36,6 @@
     $dbConn->Open_Connection();
 
     $user_info = $dbConn->GetUserDetailsByEmail($_SESSION['email']);
-
-    $_SESSION['UI1'] = $user_info;
     
     if ($user_info['returnCode'] == 'e102')
     {
@@ -45,9 +43,12 @@
         
         $_SESSION['uid'] = $user_info['id'];
         $_SESSION['admin_level'] = 0;
-    }    
-
-    $_SESSION['UI2'] = $user_info;
+    }
+    else
+    {
+        $_SESSION['uid'] = $user_info['id'];
+        $_SESSION['admin_level'] = $user_info['admin'];
+    }
 
     $dbConn->Close_Connection();
     header('Location: '.$path); 
