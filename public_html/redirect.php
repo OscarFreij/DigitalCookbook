@@ -1,7 +1,7 @@
 <?php
     require_once '../private_html/config.php';
     require_once '../private_html/db.class.php';
-    $dbCon = new DB;
+    $dbConn = new DB;
 
     //$path = ($_SERVER["REQUEST_SCHEME"]."://".$_SERVER['HTTP_HOST']);
     $path = "https://18osfr.ssis.nu/GYProjekt/?page=home";
@@ -31,51 +31,25 @@
     $_SESSION['picture'] = $google_account_info->picture;
     $_SESSION['locale'] = $google_account_info->locale;
     $_SESSION['profile_picture'] = $google_account_info->picture;
-
-    var_dump($google_account_info);
     
-    /*
-    $dbCon->Open_Connection();
-    $user_info = $dbCon->getUserInfoEmail($_SESSION['email']);
+    
+    $dbConn->Open_Connection();
 
-    if (isset($user_info['email']))
+    $user_info = $dbConn->GetUserDetailsByEmail($_SESSION['email']);
+
+    $_SESSION['UI1'] = $user_info;
+    
+    if ($user_info['returnCode'] == 'e102')
     {
-        $_SESSION['id'] = $user_info['id'];
-        $_SESSION['email'] =  $user_info['email'];
-        $_SESSION['nickname'] =  $user_info['nickname'];
+        $user_info = $dbConn->CreateAccount($_SESSION['email']);
         
-        if (isset($user_info['given_name']))
-        {
-            $_SESSION['given_name'] =  $user_info['first_name'];
-        }
-        
-        if (isset($user_info['family_name']))
-        {
-            $_SESSION['family_name'] = $user_info['family_name'];
-        }
-
-        if (isset($user_info['picture']))
-        {
-            $_SESSION['picture'] = $user_info['picture'];
-        }
-
-        $_SESSION['locale'] = $user_info['locale'];
-        $_SESSION['admin_level'] = $user_info['admin_level'];
-    }
-    else
-    {
-        $tempNick = $dbCon->createUser($_SESSION['email'],$_SESSION['given_name'],$_SESSION['family_name'],$_SESSION['locale']);
+        $_SESSION['uid'] = $user_info['id'];
         $_SESSION['admin_level'] = 0;
-        $_SESSION['nickname'] = $tempNick;
-    }
+    }    
 
-    // update picture link
+    $_SESSION['UI2'] = $user_info;
 
-    $status = $dbCon->updateUser("profile_picture", $_SESSION['profile_picture'], $_SESSION['email']);
-
-    */
-
-    $dbCon->Close_Connection();
+    $dbConn->Close_Connection();
     header('Location: '.$path); 
     exit();
 ?>

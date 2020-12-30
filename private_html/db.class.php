@@ -3,16 +3,22 @@
 class DB
 {
     public $conn;
-    private $accessFilePath = "access.json";
+    protected $accessFilePath = "../private_html/access.json";
 
     // -- Connection Functions Start --//
     private function Get_Credentials()
     {
+        Global $accessFilePath;
+
+        $accessFilePath = "../private_html/access.json";
+        
         try
         {
-            // New and small version
-            fclose($fileContent = fread(fopen($accessFilePath, "r"),filesize($accessFilePath)));
-            return json_decode($fileContent);
+            $myfile = fopen($accessFilePath, "r") or die("Unable to open file!");
+            $fileContent = fread($myfile,filesize($accessFilePath));
+            fclose($myfile);
+
+            return json_decode($fileContent, true);
         }
         catch (Exeptiopn $e)
         {
@@ -23,7 +29,7 @@ class DB
 
     public function Open_Connection()
     {
-        $credentials = Get_Credentials();
+        $credentials = $this->Get_Credentials();
         $servername = $credentials['servername'];
         $dbname = $credentials['dbname'];
         $username = base64_decode($credentials['username']);
@@ -56,17 +62,95 @@ class DB
     //-- Account Management Functions Start --//
     public function GetUserDetailsById($userId)
     {
+        Global $conn;
 
+        if(isset($conn))
+        {
+            try
+            {
+                $stmt = $conn->prepare("SELECT * FROM DigitalCookbook__Users WHERE ´id´ = $userId");
+                $stmt->execute();
+
+                $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+                $userData = $stmt->fetchAll();
+
+                if ($stmt->rowCount() > 0)
+                {
+                    return  array('returnCode' => 'e100', 'id' => $userData[0]['id'], 'email' => $userData[0]['email'], 'admin' => $userData[0]['admin']); 
+                }
+                else
+                {
+                    return  array('returnCode' => 'e102', 'msg' => "account not found"); 
+                }  
+            }
+            catch(PDOException $e)
+            {
+                return  array('returnCode' => 'e101', 'msg' => $e->getMessage()); 
+            }
+        }
     }
 
     public function GetUserDetailsByEmail($email)
     {
+        Global $conn;
 
+        if(isset($conn))
+        {
+            try
+            {
+                $stmt = $conn->prepare("SELECT * FROM `DigitalCookbook__Users` WHERE `email`= '$email'");
+                $stmt->execute();
+
+                $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+                $userData = $stmt->fetchAll();
+
+                if ($stmt->rowCount() > 0)
+                {
+                    return  array('returnCode' => 'e100', 'id' => $userData[0]['id'], 'email' => $userData[0]['email'], 'admin' => $userData[0]['admin']); 
+                }
+                else
+                {
+                    return  array('returnCode' => 'e102', 'msg' => "account not found"); 
+                }               
+            }
+            catch(PDOException $e)
+            {
+                return  array('returnCode' => 'e101', 'msg' => $e->getMessage()); 
+            }
+        }
     }
 
-    public function CreateAccount($accountData)
+    public function CreateAccount($email)
     {
+        Global $conn;
 
+        if(isset($conn))
+        {
+            try
+            {
+                $sql = "INSERT INTO DigitalCookbook__Users (email) VALUES ('$email')";
+                
+                // use exec() because no results are returned
+                $conn->exec($sql);
+
+                $IdCheckObject = $this->GetUserDetailsByEmail($email);
+
+                if ($IdCheckObject['returnCode'] == 'e100')
+                {
+                    return  array('returnCode' => 'e100', 'msg' => $e->getMessage(), 'id' => $IdCheckObject['id']); 
+                }
+                else
+                {
+                    return  array('returnCode' => 'e103', 'msg' => $e->getMessage());
+                }                
+            }
+            catch(PDOException $e)
+            {
+                return  array('returnCode' => 'e101', 'msg' => $e->getMessage()); 
+            }
+        }
     }
     //-- Account Management Functions End --//
 
@@ -76,7 +160,17 @@ class DB
 
     }
     
-    public function CreateRecepie($recepieID)
+    public function CreateRecepie($recepieData)
+    {
+        
+    }
+
+    public function UpdateRecepie($recepieID, $recepieData)
+    {
+        
+    }
+
+    public function RemoveRecepie($recepieID)
     {
         
     }

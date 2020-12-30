@@ -75,3 +75,9 @@ Require $module_path."head.php";
     </div>  
 </body>
 </html>
+
+
+
+<?php
+
+var_dump($_SESSION);
