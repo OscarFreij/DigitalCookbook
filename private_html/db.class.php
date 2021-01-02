@@ -139,11 +139,11 @@ class DB
 
                 if ($IdCheckObject['returnCode'] == 'e100')
                 {
-                    return  array('returnCode' => 'e100', 'msg' => $e->getMessage(), 'id' => $IdCheckObject['id']); 
+                    return  array('returnCode' => 'e100', 'msg' => "User Was created!", 'id' => $IdCheckObject['id']); 
                 }
                 else
                 {
-                    return  array('returnCode' => 'e103', 'msg' => $e->getMessage());
+                    return  array('returnCode' => 'e103', 'msg' => "Account could not be created. Unknown error");
                 }                
             }
             catch(PDOException $e)
