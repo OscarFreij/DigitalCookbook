@@ -157,7 +157,49 @@ class DB
     //-- Recepie Management Functions Start --//
     public function GetRecepie($recepieID)
     {
+        Global $conn;
 
+        if(isset($conn))
+        {
+            try
+            {
+                $stmt = $conn->prepare("SELECT * FROM DigitalCookbook__Recepie WHERE ´id´ = $userId");
+                $stmt->execute();
+
+                $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+                $recepieData = $stmt->fetchAll();
+
+                if ($stmt->rowCount() > 0)
+                {
+                    return  array(
+                        'returnCode' => 's100',
+                        'id' => $recepieData[0]['id'],
+                        'ownerId' => $recepieData[0]['ownerId'],
+                        'name' => $recepieData[0]['name'],
+                        'time' => $recepieData[0]['time'],
+                        'portions' => $recepieData[0]['portions'],
+                        'scalable' => $recepieData[0]['scalable'],
+                        'tags' => $recepieData[0]['tags'],
+                        'difficulty' => $recepieData[0]['difficulty'],
+                        'picture' => $recepieData[0]['picture'],
+                        'description' => $recepieData[0]['description'],
+                        'ingredients' => $recepieData[0]['ingredients'],
+                        'instructions' => $recepieData[0]['instructions'],
+                        'folderId' => $recepieData[0]['folderId'],
+                        'accessibility' => $recepieData[0]['accessibility'],
+                    ); 
+                }
+                else
+                {
+                    return  array('returnCode' => 'e202', 'msg' => "recepie not found"); 
+                }  
+            }
+            catch(PDOException $e)
+            {
+                return  array('returnCode' => 'e201', 'msg' => $e->getMessage()); 
+            }
+        }
     }
     
     public function CreateRecepie($recepieData)

@@ -4,15 +4,16 @@ require_once '../private_html/vendor/autoload.php';
 
 require_once '../private_html/config.php';
 
-$module_path = "../private_html/modules/";
-$pages_path = "../private_html/pages/";
-$vendor_path = "../private_html/vendor/";
+$modulePath = "../private_html/modules/";
+$pagesPath = "../private_html/pages/";
+$vendorPath = "../private_html/vendor/";
 
-$site_pre_url = "GYProjekt/"; // fix for a weird .htaccess bug... Talk to Daka!
+$sitePreURL = "GYProjekt/"; // fix for a weird .htaccess bug... Talk to Daka!
 
-$active_page = "";
+$activePage = "";
 $requireQuillJS = false;
 $pagesRequieringQuillJS = ["0" =>  "recepie", "1" => "cookbook"];
+$pagesRequieringSignIn = ["0" => "account", "1" => "cookbook", "2" => "settings"];
 
 /*
  * Variabels in use for page selection.
@@ -24,31 +25,42 @@ $pagesRequieringQuillJS = ["0" =>  "recepie", "1" => "cookbook"];
 // Check what page we are on, else set to home.
 if (isset($_GET['page']))
 {
-    $active_page = $_GET['page'];
+    $activePage = $_GET['page'];
     
     // Set $requireQuillJS to TRUE if the page is found inside $pagesRequieringQuillJS.
     foreach ($pagesRequieringQuillJS as $key => $value) {
-        if ($value == $active_page)
+        if ($value == $activePage)
         {
             $requireQuillJS = true;
             break;
         }
     }
 
-    if ($active_page == "redirect")
+    if ($activePage == "redirect")
     {
         require "../public_html/redirect.php";
         exit;
     }
-    else if ($active_page == "logout")
+    else if ($activePage == "logout")
     {
         require "../public_html/logout.php";
         exit;
     }
+
+    foreach ($pagesRequieringSignIn as $key => $value) {
+        if ($value == $activePage)
+        {
+            if (!isset($_SESSION['email']))
+            {
+                $activePage = "askToLogin";
+                break;
+            }
+        }
+    }
 }
 else
 {
-    $active_page = "home";
+    $activePage = "home";
 }
 
 ?>
@@ -58,18 +70,18 @@ else
 <html lang="en">
 <?php
 // Require head.
-Require $module_path."head.php";
+Require $modulePath."head.php";
 ?>
 <body>
     <div id="wrapper">
         <?php
         // Require navbar.
-        Require $module_path."navbar.php";
+        Require $modulePath."navbar.php";
         ?>
         <div id="wrapper-content">
         <?php
         // Include the active page, currenty no 404 or 403 page :(
-        Include $pages_path.$active_page.".php";
+        Include $pagesPath.$activePage.".php";
         ?>
         </div>
     </div>  

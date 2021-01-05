@@ -49,5 +49,20 @@
                 '
             );              
         }
+
+        if (file_exists("static/css/$activePage.css"))
+        {
+            echo('<link rel="stylesheet" href="static/css/'.$activePage.'.css">');
+        }
+        
+        if (file_exists("static/css/media-$activePage.css"))
+        {
+            echo('<link rel="stylesheet" href="static/css/media-'.$activePage.'.css">');
+        }
+        
+        if (file_exists("static/js/$activePage.js"))
+        {
+            echo('<script src="static/js/'.$activePage.'.js"></script>');
+        }
     ?>
 </head>

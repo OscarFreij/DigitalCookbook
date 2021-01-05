@@ -35,19 +35,19 @@
     
     $dbConn->Open_Connection();
 
-    $user_info = $dbConn->GetUserDetailsByEmail($_SESSION['email']);
+    $userInfo = $dbConn->GetUserDetailsByEmail($_SESSION['email']);
     
-    if ($user_info['returnCode'] == 'e102')
+    if ($userInfo['returnCode'] == 'e102')
     {
-        $user_info = $dbConn->CreateAccount($_SESSION['email']);
+        $userInfo = $dbConn->CreateAccount($_SESSION['email']);
         
-        $_SESSION['uid'] = $user_info['id'];
+        $_SESSION['uid'] = $userInfo['id'];
         $_SESSION['admin_level'] = 0;
     }
     else
     {
-        $_SESSION['uid'] = $user_info['id'];
-        $_SESSION['admin_level'] = $user_info['admin'];
+        $_SESSION['uid'] = $userInfo['id'];
+        $_SESSION['admin_level'] = $userInfo['admin'];
     }
 
     $dbConn->Close_Connection();
