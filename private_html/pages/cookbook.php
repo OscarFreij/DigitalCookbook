@@ -26,7 +26,8 @@
 
 </div>
 <div id="edit_wrapper" class="btn-group">
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#AddCategoryModal">Add category</button>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#AddCategoryModal">Add Category</button>
     <button type="button" class="btn btn-warning" id="ToggleEditBtn" onClick="ToggleEdit()">Edit</button>
+    <button type="button" class="btn btn-primary" id="AddRecepieBtn" onClick="">Add Recepie</button>
 </div>
 
