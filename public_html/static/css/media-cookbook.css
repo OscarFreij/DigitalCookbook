@@ -1,0 +1,7 @@
+@media only screen and (max-width: 991px)
+{    
+    #edit_wrapper[data-menuisopen="true"]
+    {
+        min-width: 100vw;
+    }
+}

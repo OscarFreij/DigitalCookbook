@@ -1,6 +1,7 @@
 // GLOBAL VARIABEL START //
 
 var editingMode = false;
+var categoryIsOpen = true;
 
 // GLOBAL VARIABEL END //
 
@@ -187,6 +188,34 @@ function ToggleEdit()
 }
 
 // BTN PANEL END //
+
+
+// MENU CONTROL START //
+
+function ToggleMenu() {
+    
+    if (categoryIsOpen == true)
+    {
+        $('#category_wrapper')[0].dataset.menuisopen = "false";
+        $('#edit_wrapper')[0].dataset.menuisopen = "false";
+        
+        $('#bottom_wrapper')[0].insertBefore($('#edit_wrapper')[0].children[2],$('#bottom_wrapper')[0].children[0]);
+
+        categoryIsOpen = false;
+    }
+    else
+    {
+        $('#category_wrapper')[0].dataset.menuisopen = "true";
+        $('#edit_wrapper')[0].dataset.menuisopen = "true";
+
+        $('#edit_wrapper')[0].appendChild($('#bottom_wrapper')[0].children[0]);
+
+        categoryIsOpen = true;
+    }
+}
+
+// MENU CONTROL END //
+
 
 // DBConn START //
 

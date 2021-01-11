@@ -1,4 +1,4 @@
-<div id="category_wrapper" class="list-group">
+<div id="category_wrapper" class="list-group category_menu" data-menuisopen="true">
     <?php
     require_once("../private_html/db.class.php");
 
@@ -22,12 +22,16 @@
 
     
 </div>
-<div id="content_wrapper">
-
+<div id="content_wrapper" style="overflow-y: auto;">
+    
 </div>
-<div id="edit_wrapper" class="btn-group">
+<div id="edit_wrapper" class="btn-group category_menu" data-menuisopen="true">
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#AddCategoryModal">Add Category</button>
     <button type="button" class="btn btn-warning" id="ToggleEditBtn" onClick="ToggleEdit()">Edit</button>
+    <button type="button" class="btn btn-primary" id="ToggleMenuBtn" onClick="ToggleMenu()">Toggle Menu</button>
+</div>
+
+<div id="bottom_wrapper" class="btn-group">
     <button type="button" class="btn btn-primary" id="AddRecepieBtn" onClick="">Add Recepie</button>
 </div>
 
