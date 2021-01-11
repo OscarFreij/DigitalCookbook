@@ -197,10 +197,12 @@ function addCategory()
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             console.log(this.responseText);
+
+            location.reload();
        }
     };
 
-    var nextId = 1;
+    var nextId = 0;
 
     if ($categories.length > 0)
     {
@@ -212,7 +214,7 @@ function addCategory()
     xhttp.send("action=AddCategory&name="+$('#ACMNameInput')[0].value+"&nextId="+nextId);
     $('#ACMNameInput')[0].value = "";
     
-    location.reload();
+    
 }
 
 function removeCategory(id)
@@ -237,7 +239,6 @@ function removeCategory(id)
     }
 
     reorderCategories();
-    updateCategories()
 }
 
 function updateCategories() {
@@ -254,13 +255,12 @@ function updateCategories() {
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             console.log(this.responseText);
+            location.reload();
        }
     };
     xhttp.open("POST", "callback.php", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("action=UpdateCategories&JSON_Categories="+JSON.stringify(JSON_Categories));
-    
-    location.reload();
 }
 
 // DBConn END //
