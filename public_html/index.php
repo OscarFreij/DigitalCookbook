@@ -84,6 +84,13 @@ Require $modulePath."head.php";
         Include $pagesPath.$activePage.".php";
         ?>
         </div>
+        <?php
+        if (file_exists($modulePath."modal-".$activePage.".php"))
+        {
+            include $modulePath."modal-".$activePage.".php";
+        }
+        ?>
     </div>  
+    
 </body>
 </html>

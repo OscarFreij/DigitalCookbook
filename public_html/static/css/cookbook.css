@@ -21,6 +21,7 @@
     grid-column: 1/2;
     grid-row: 1/2;
     overflow-y: auto;
+
 }
 
 #category_wrapper > *:not(:last-child)
@@ -32,9 +33,11 @@
 {
     display: grid;
     grid-template-rows: 1fr;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 2fr fit-content;
     transition-duration: 0.25s;
     word-wrap: break-word;
+    min-height: 2rem;
+    align-items: center;
 }
 
 #category_wrapper > *:hover
@@ -46,11 +49,22 @@
 #category_wrapper > * > *
 {
     grid-row: 1/2;
+    min-height: 2rem;
 }
 
 #category_wrapper > * > .EditPanel
 {
     justify-self: end;
+}
+
+#category_wrapper > * > a
+{
+    color: black;
+}
+
+#category_wrapper > *.active > a
+{
+    color: white;
 }
 
 #content_wrapper

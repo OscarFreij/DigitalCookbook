@@ -2,43 +2,31 @@
     require_once("../private_html/db.class.php");
 
     session_start();
-    //
-    //var_dump($idea);
 
     $dbCon = new db;
-    $dbCon->connectToDB();
-    
-    $numberOfIdeas = $dbCon->getPostAmount(true);
-    //echo $numberOfIdeas;
-    if (isset($_GET["LastPostLimit"]) && isset($_GET["AmountToLoad"]) && !isset($_GET['idea']))
+    $dbCon->Open_Connection();
+
+    if (isset($_POST['action']))
     {
-        //echo $numberOfIdeas;
-        echo($dbCon->getPosts($_GET['LastPostLimit'],$_GET["AmountToLoad"],$_SESSION['id']));
-    }
-    elseif (isset($_GET['idea']) && !isset($_GET["LastPostLimit"]) && !isset($_GET["AmountToLoad"]) && !isset($_GET['FollowAction']))
-    {
-        echo(($dbCon->getPostDescription($_GET['idea'], $_SESSION['id'])));   
-    }
-    elseif (isset($_GET['FollowAction']) && isset($_GET['TargetType']) && isset($_GET['TargetID']))
-    {
-        if ($_GET['FollowAction'] == "Status")
-        {
-            return $dbCon->checkIfFollow($_SESSION['id'],$_GET['TargetType'],$_GET['TargetID']);
+        switch ($_POST['action']) {
+            case 'AddCategory':
+                echo($dbCon->CreateCategory($_POST['name'], $_POST['nextId']));
+                break;
+
+            case 'RemoveCategory':
+                echo($dbCon->RemoveCategory($_POST['id']));
+                break;
+
+            case 'UpdateCategories':
+                echo($dbCon->UpdateCategories($_POST['JSON_Categories']));
+                break;
+            
+            default:
+                # code...
+                break;
         }
-        elseif ($_GET['FollowAction'] == "Toggle")
-        {
-            $dbCon->toggleFollow($_SESSION['id'],$_GET['TargetType'],$_GET['TargetID']);
-        }
-    }
-    elseif (isset($_GET['remove']))
-    {
-        $dbCon->deletePost($_GET['remove'],$_SESSION['id']);
-    }
-    else
-    {
-        echo("Failed to execute task!");
     }
 
-    $dbCon->closeConn();
+    $dbCon->Close_Connection();
 
 ?>
