@@ -279,7 +279,7 @@ function ProcessRecipe() {
         object.difficulty = 3;
     }
 
-    object.status = $('#recipe_status')[0].value;
+    object.accessibility = $('#recipe_accessibility')[0].value;
     object.category = $('#recipe_category')[0].value;
 
     recipeObject = object;

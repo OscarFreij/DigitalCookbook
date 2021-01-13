@@ -110,11 +110,11 @@
             <p>Ge tipps om rätten</p>
         </div>
     </div>
-    <div id="container_status">
+    <div id="container_accessibility">
         <h2>Tillgänglighet</h2>
         <div>
             <lable>Tillgänglighet för andra :</lable>
-            <select name="recipe_status" id="recipe_status">
+            <select name="recipe_accessibility" id="recipe_accessibility">
                 <option value="0">Privat</option>
                 <option value="1">Olistad</option>
                 <option value="2">Publik</option>

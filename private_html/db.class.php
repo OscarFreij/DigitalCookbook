@@ -220,14 +220,14 @@ class DB
         $tags = json_encode($recipeData->tags);
         $difficulty = $recipeData->difficulty;
         $category = $recipeData->category;
-        $status = $recipeData->status;
+        $accessibility = $recipeData->accessibility;
 
 
         if(isset($conn))
         {
             try
             {
-                $sql = "INSERT INTO `DigitalCookbook__Recipes`(`ownerId`, `name`, `time`, `portions`, `scalable`, `tags`, `difficulty`, `picture`, `description`, `ingredients`, `instructions`, `accessibility`) VALUES ('$uid','$title','$time','$portions','$scalable','$tags','$difficulty','$imageData','$description','$ingredients','$howTo','$status')";
+                $sql = "INSERT INTO `DigitalCookbook__Recipes`(`ownerId`, `name`, `time`, `portions`, `scalable`, `tags`, `difficulty`, `picture`, `description`, `ingredients`, `instructions`, `accessibility`) VALUES ('$uid','$title','$time','$portions','$scalable','$tags','$difficulty','$imageData','$description','$ingredients','$howTo','$accessibility')";
                 
                 
                 $conn->exec($sql);
