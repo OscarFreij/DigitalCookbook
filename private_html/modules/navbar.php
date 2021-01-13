@@ -11,8 +11,8 @@
             <li class="nav-item <?php if($activePage == "home") echo("active")?>">
                 <a class="nav-link" navType="normal" href="/<?=$sitePreURL?>?page=home">Hem</a>
             </li>
-            <li class="nav-item <?php if($activePage == "shoppinglist") echo("active")?>">
-                <a class="nav-link" navType="normal" href="/<?=$sitePreURL?>?page=shoppinglist">Inköpslista</a>
+            <li class="nav-item disabled <?php if($activePage == "shoppinglist") echo("active")?>">
+                <a class="nav-link disabled" navType="normal" href="/<?=$sitePreURL?>?page=shoppinglist">Inköpslista</a>
             </li>
             <li class="nav-item <?php if($activePage == "browse") echo("active")?>">
                 <a class="nav-link" navType="normal" href="/<?=$sitePreURL?>?page=browse">Bläddra recept</a>
