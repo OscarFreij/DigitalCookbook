@@ -92,3 +92,15 @@
     padding: 10px;
     overflow-x: hidden;
 }
+
+#AddRecepieBtn
+{
+    display: grid;
+}
+
+#AddRecepieBtn > *
+{
+    text-align: center;
+    align-self: center;
+    margin: 0;
+}

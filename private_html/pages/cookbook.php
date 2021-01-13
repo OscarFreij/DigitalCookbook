@@ -32,6 +32,6 @@
 </div>
 
 <div id="bottom_wrapper" class="btn-group">
-    <button type="button" class="btn btn-primary" id="AddRecepieBtn" onClick="">Add Recepie</button>
+    <a class="btn btn-primary" id="AddRecepieBtn" href="/<?=$sitePreURL?>?page=recipe&edit=true"><p>Add Recipe</p></a>
 </div>
 
