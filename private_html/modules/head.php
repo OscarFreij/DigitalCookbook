@@ -36,13 +36,12 @@
             (
                 '
                     <!-- QuillJS Library -->
-                        <!-- Main Quill library -->
-                        <script src="//cdn.quilljs.com/1.3.6/quill.js"></script>
-                        <script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
-                        
                         <!-- Theme included stylesheets -->
                         <link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
                         <link href="//cdn.quilljs.com/1.3.6/quill.bubble.css" rel="stylesheet">
+
+                        <!-- Main Quill library -->
+                        <script src="//cdn.quilljs.com/1.3.6/quill.js"></script>
                     
                         <!-- Core build with no theme, formatting, non-essential modules -->
                         <link href="//cdn.quilljs.com/1.3.6/quill.core.css" rel="stylesheet">
@@ -51,19 +50,47 @@
             );              
         }
 
-        if (file_exists("static/css/$activePage.css"))
+        if ($activePage == "recipe")
         {
-            echo('<link rel="stylesheet" href="static/css/'.$activePage.'.css">');
+            if (isset($_GET['edit']))
+            {
+                if ($_GET['edit'] == "true")
+                {
+                    echo('<link rel="stylesheet" href="static/css/edit-recipe.css">');
+                    echo('<link rel="stylesheet" href="static/css/media-edit-recipe.css">');
+                    echo('<script src="static/js/edit-recipe.js"></script>');
+                }
+                else if ($_GET['edit'] == "true")
+                {
+                    echo('<link rel="stylesheet" href="static/css/view-recipe.css">');
+                    echo('<link rel="stylesheet" href="static/css/media-view-recipe.css">');
+                    echo('<script src="static/js/view-recipe.js"></script>');
+                }
+                else
+                {
+                    echo('<link rel="stylesheet" href="static/css/view-recipe.css">');
+                    echo('<link rel="stylesheet" href="static/css/media-view-recipe.css">');
+                    echo('<script src="static/js/view-recipe.js"></script>');
+                }
+            }
+        }
+        else
+        {
+            if (file_exists("static/css/$activePage.css"))
+            {
+                echo('<link rel="stylesheet" href="static/css/'.$activePage.'.css">');
+            }
+            
+            if (file_exists("static/css/media-$activePage.css"))
+            {
+                echo('<link rel="stylesheet" href="static/css/media-'.$activePage.'.css">');
+            }
+            
+            if (file_exists("static/js/$activePage.js"))
+            {
+                echo('<script src="static/js/'.$activePage.'.js"></script>');
+            }
         }
         
-        if (file_exists("static/css/media-$activePage.css"))
-        {
-            echo('<link rel="stylesheet" href="static/css/media-'.$activePage.'.css">');
-        }
-        
-        if (file_exists("static/js/$activePage.js"))
-        {
-            echo('<script src="static/js/'.$activePage.'.js"></script>');
-        }
     ?>
 </head>

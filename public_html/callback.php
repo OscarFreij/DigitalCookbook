@@ -20,7 +20,14 @@
             case 'UpdateCategories':
                 echo($dbCon->UpdateCategories($_POST['JSON_Categories']));
                 break;
-            
+
+            case 'GetRecipes':
+                echo($dbCon->GetRecipe($_POST['id'], $_SESSION['uid']));
+                break;
+
+            case 'CreateRecipe':
+                echo($dbCon->CreateRecipe(json_decode($_POST['JSON_RecipeData']), $_SESSION['uid']));
+                break;
             default:
                 # code...
                 break;

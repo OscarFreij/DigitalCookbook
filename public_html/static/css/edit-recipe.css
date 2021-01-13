@@ -1,0 +1,146 @@
+#wrapper-content
+{
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+    grid-template-rows: auto;
+    min-height: fit-content;
+}
+
+
+#tags
+{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+#tags > * 
+{
+    margin-left: 5px;
+}
+
+#wrapper-main
+{
+    grid-column: 2/3;
+    grid-row: 1/2;
+    justify-content: center;
+}
+
+#wrapper-main:not(:last-child) > *
+{
+    margin-bottom: 15px;
+}
+
+#wrapper-main > *
+{
+    border: rgb(240, 240, 240) solid 1px;
+    border-radius: 10px;
+    background-color: rgb(210, 210, 210);
+    margin: 10px;
+    padding: 5px;
+}
+
+#wrapper-main > * > *
+{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+#container_description > div, #container_serving > div, #container_tips > div
+{
+    background-color: white;
+}
+
+.ql-toolbar
+{
+    padding-top: 5px;
+    padding-right: 5px;
+    padding-left: 5px;
+    border-radius: 5px 5px 0 0 ;
+}
+
+.ql-container
+{
+    padding-bottom: 5px;
+    padding-right: 5px;
+    padding-left: 5px;
+    border-radius: 0 0 5px 5px;
+}
+
+#recipe_ingredients, #recipe_howto
+{
+    border-radius: 5px;
+    background-color: white;
+    border-collapse: collapse;
+    border: lightgrey solid 1px;
+    width: 100%;
+    padding: 5px;
+}
+
+#recipe_ingredients > *
+{
+    width: 100%;
+    border: lightgrey solid 1px;
+    display: grid;
+    border-collapse: collapse;
+    grid-template-columns: 1fr 1fr 5fr;
+    justify-content: center;
+    text-align: center;
+}
+
+#recipe_howto > *
+{
+    width: 100%;
+    border: lightgrey solid 1px;
+    display: grid;
+    border-collapse: collapse;
+    grid-template-columns: 1fr 11fr;
+    justify-content: center;
+    text-align: center;
+}
+
+#recipe_ingredients > div.tRow > *, #recipe_howto > div.tRow > * 
+{
+    width: 100%;
+    border: lightgrey solid 1px;
+}
+
+#recipe_ingredients > div.tRow > div.tRowItem > *, #recipe_howto > div.tRow > div.tRowItem > *
+{
+    width: 100%;
+    border: lightgrey solid 1px;
+}
+
+input
+{
+    text-align: center;
+}
+
+#recipe_tags, #recipe_equipment
+{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: 1fr;
+    border-radius: 5px;
+    background-color: white;
+    border-collapse: collapse;
+    border: lightgrey solid 1px;
+}
+
+#recipe_tags > * , #recipe_equipment > *
+{
+    justify-self: center;
+}
+
+#recipe_difficulty
+{
+    justify-content: space-around;
+}
+
+#saveBtn
+{
+    width: 100%;
+}

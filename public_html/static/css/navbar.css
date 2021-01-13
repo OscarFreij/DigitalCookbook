@@ -32,7 +32,7 @@
     transition: 0.15s;
 }
 
-.nav-item:hover
+.nav-item:hover:not(.disabled)
 {
     background-color: rgba(0, 0, 0, 0.15);
     color: #fff;

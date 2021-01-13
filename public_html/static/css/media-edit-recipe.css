@@ -1,0 +1,8 @@
+@media only screen and (max-width: 988px)
+{
+    #wrapper-content
+    {
+        display: flex;
+        flex-direction: column;
+    }
+}

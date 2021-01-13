@@ -155,7 +155,7 @@ class DB
     //-- Account Management Functions End --//
 
     //-- Recepie Management Functions Start --//
-    public function GetRecepie($recepieID)
+    public function GetRecipe($recipeId, $userId)
     {
         Global $conn;
 
@@ -163,31 +163,30 @@ class DB
         {
             try
             {
-                $stmt = $conn->prepare("SELECT * FROM DigitalCookbook__Recepie WHERE ´id´ = $userId");
+                $stmt = $conn->prepare("SELECT * FROM DigitalCookbook__Recipes WHERE `id` = '$userId'");
                 $stmt->execute();
 
                 $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
 
-                $recepieData = $stmt->fetchAll();
+                $recipeData = $stmt->fetchAll();
 
                 if ($stmt->rowCount() > 0)
                 {
                     return  array(
                         'returnCode' => 's100',
-                        'id' => $recepieData[0]['id'],
-                        'ownerId' => $recepieData[0]['ownerId'],
-                        'name' => $recepieData[0]['name'],
-                        'time' => $recepieData[0]['time'],
-                        'portions' => $recepieData[0]['portions'],
-                        'scalable' => $recepieData[0]['scalable'],
-                        'tags' => $recepieData[0]['tags'],
-                        'difficulty' => $recepieData[0]['difficulty'],
-                        'picture' => $recepieData[0]['picture'],
-                        'description' => $recepieData[0]['description'],
-                        'ingredients' => $recepieData[0]['ingredients'],
-                        'instructions' => $recepieData[0]['instructions'],
-                        'folderId' => $recepieData[0]['folderId'],
-                        'accessibility' => $recepieData[0]['accessibility'],
+                        'id' => $recipeData[0]['id'],
+                        'ownerId' => $recipeData[0]['ownerId'],
+                        'name' => $recipeData[0]['name'],
+                        'time' => $recipeData[0]['time'],
+                        'portions' => $recipeData[0]['portions'],
+                        'scalable' => $recipeData[0]['scalable'],
+                        'tags' => $recipeData[0]['tags'],
+                        'difficulty' => $recipeData[0]['difficulty'],
+                        'picture' => $recipeData[0]['picture'],
+                        'description' => $recipeData[0]['description'],
+                        'ingredients' => $recipeData[0]['ingredients'],
+                        'instructions' => $recipeData[0]['instructions'],
+                        'accessibility' => $recipeData[0]['accessibility'],
                     ); 
                 }
                 else
@@ -202,22 +201,56 @@ class DB
         }
     }
     
-    public function CreateRecepie($recepieData)
+    public function CreateRecipe($recipeData, $userId)
+    {
+        Global $conn;
+
+        $uid = $_SESSION['uid'];
+
+        $title = $recipeData->title;
+        $imageData = $recipeData->imageData;
+        $portions = $recipeData->portions;
+        $scalable = $recipeData->scalable;
+        $time = $recipeData->time;
+        $ingredients = json_encode($recipeData->ingredients);
+        $howTo = json_encode($recipeData->howTo);
+        $description = json_encode($recipeData->description);
+        $serving = json_encode($recipeData->serving);
+        $tips = json_encode($recipeData->tips);
+        $tags = json_encode($recipeData->tags);
+        $difficulty = $recipeData->difficulty;
+        $category = $recipeData->category;
+        $status = $recipeData->status;
+
+
+        if(isset($conn))
+        {
+            try
+            {
+                $sql = "INSERT INTO `DigitalCookbook__Recipes`(`ownerId`, `name`, `time`, `portions`, `scalable`, `tags`, `difficulty`, `picture`, `description`, `ingredients`, `instructions`, `accessibility`) VALUES ('$uid','$title','$time','$portions','$scalable','$tags','$difficulty','$imageData','$description','$ingredients','$howTo','$status')";
+                
+                
+                $conn->exec($sql);
+                return  json_encode(array('returnCode' => 's100', 'msg' => "Recipe Was created!"));              
+            }
+            catch(PDOException $e)
+            {
+                return  json_encode(array('returnCode' => 'e101', 'msg' => $e->getMessage())); 
+            }
+        }
+    }
+
+    public function UpdateRecipe($recipeId, $recipeData)
     {
         
     }
 
-    public function UpdateRecepie($recepieID, $recepieData)
-    {
-        
-    }
-
-    public function RemoveRecepie($recepieID)
+    public function RemoveRecipe($recipeId)
     {
         
     }
     
-    public function AddRecepieRelation($recepieID, $userId)
+    public function AddRecipeRelation($recipeId, $userId)
     {
         
     }
@@ -234,7 +267,7 @@ class DB
         {
             try
             {
-                $stmt = $conn->prepare("SELECT * FROM `DigitalCookbook__Folders` WHERE `ownerId` = '$userId'");
+                $stmt = $conn->prepare("SELECT * FROM `DigitalCookbook__Folders` WHERE `ownerId` = '$userId' ORDER BY `orderNr` ASC");
                 $stmt->execute();
 
                 $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
@@ -272,6 +305,52 @@ class DB
         }
     }
 
+    public function GetCategoriesForSelection($userId)
+    {
+        Global $conn;
+
+        if(isset($conn))
+        {
+            try
+            {
+                $stmt = $conn->prepare("SELECT * FROM `DigitalCookbook__Folders` WHERE `ownerId` = '$userId' ORDER BY `orderNr` ASC");
+                $stmt->execute();
+
+                $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+                $categoryData = $stmt->fetchAll();
+
+                if ($stmt->rowCount() > 0)
+                {
+                    $categories = array();
+
+                        foreach ($categoryData as $key => $row) {
+
+                            $orderID = $row['orderNr'];
+                            $name = $row['titel'];
+                            $id = $row['id'];
+
+                            $temp = "<option value='$id'>$name</option>";
+                            array_push($categories,$temp);
+                        }
+
+                    return  array(
+                        'returnCode' => 's100',
+                        'categories' => $categories
+                    ); 
+                }
+                else
+                {
+                    return  array('returnCode' => 'e202', 'msg' => "no categories found"); 
+                }  
+            }
+            catch(PDOException $e)
+            {
+                return  array('returnCode' => 'e201', 'msg' => $e->getMessage()); 
+            }
+        }
+    }
+
     public function CreateCategory($name, $nextID)
     {
         Global $conn;
@@ -286,7 +365,7 @@ class DB
                 
                 // use exec() because no results are returned
                 $conn->exec($sql);
-                return  json_encode(array('returnCode' => 'e100', 'msg' => "Folder Was created!"));              
+                return  json_encode(array('returnCode' => 's100', 'msg' => "Folder Was created!"));              
             }
             catch(PDOException $e)
             {
@@ -309,7 +388,7 @@ class DB
                 
                 // use exec() because no results are returned
                 $conn->exec($sql);
-                return  json_encode(array('returnCode' => 'e100', 'msg' => "Folder Was removed!"));              
+                return  json_encode(array('returnCode' => 's100', 'msg' => "Folder Was removed!"));              
             }
             catch(PDOException $e)
             {
@@ -345,7 +424,7 @@ class DB
                         return  json_encode(array('returnCode' => 'e101', 'msg' => $e->getMessage())); 
                     }
                 }
-                return  json_encode(array('returnCode' => 'e100', 'msg' => "Updated category order")); 
+                return  json_encode(array('returnCode' => 's100', 'msg' => "Updated category order")); 
             }
             catch (Exception $me)
             {
@@ -356,6 +435,55 @@ class DB
     
     //-- Category Management Functions End --//
 
+    //-- Tag Management Functions Start --//
+
+    public function GetTagsEdit($tagType)
+    {
+        Global $conn;
+
+        if(isset($conn))
+        {
+            try
+            {
+                $stmt = $conn->prepare("SELECT * FROM `DigitalCookbook__Tags` WHERE `type` = '$tagType' ORDER BY `name` ASC");
+                $stmt->execute();
+
+                $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+                $tagData = $stmt->fetchAll();
+
+                if ($stmt->rowCount() > 0)
+                {
+                    $tags = array();
+
+                        foreach ($tagData as $key => $row) {
+
+                            $type = $row['type'];
+                            $name = $row['name'];
+                            $id = $row['id'];
+
+                            $temp = "<div><input type='checkbox' value='$id' name='recipe_$name' id='recipe_$name'><label for='recipe__$name'>: $name</label></div>";
+                            array_push($tags,$temp);
+                        }
+
+                    return  array(
+                        'returnCode' => 's100',
+                        'tags' => $tags
+                    ); 
+                }
+                else
+                {
+                    return  array('returnCode' => 'e202', 'msg' => "no tags found"); 
+                }  
+            }
+            catch(PDOException $e)
+            {
+                return  array('returnCode' => 'e201', 'msg' => $e->getMessage()); 
+            }
+        }
+    }
+
+    //-- Tag Management Functions End --//
 }
 
 ?>

@@ -12,7 +12,7 @@ $sitePreURL = "GYProjekt/"; // fix for a weird .htaccess bug... Talk to Daka!
 
 $activePage = "";
 $requireQuillJS = false;
-$pagesRequieringQuillJS = ["0" =>  "recepie"];
+$pagesRequieringQuillJS = ["0" =>  "recipe"];
 $pagesRequieringSignIn = ["0" => "account", "1" => "cookbook", "2" => "settings"];
 
 /*

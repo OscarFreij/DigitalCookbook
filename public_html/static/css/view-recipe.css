@@ -1,0 +1,101 @@
+#wrapper-content
+{
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: 1fr;
+    min-height: fit-content;
+}
+
+#wrapper-content > *
+{
+    border: lightslategray solid 1px;
+    margin: 10px;
+}
+
+#wrapper-main
+{
+    grid-row: 1/2;
+    grid-column: 1/2;
+    display: grid;
+    grid-template-rows: auto auto;
+    justify-content: center;
+}
+
+#wrapper-side
+{
+    grid-row: 1/2;
+    grid-column: 2/3;
+    display: grid;
+    height: fit-content;
+}
+
+#wrapper-top
+{
+    grid-row: 1/2;
+    grid-column: 1/2;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto auto auto;
+    height: fit-content;
+}
+
+#wrapper-top > *
+{
+    margin: 10px;
+    height: fit-content;
+}
+
+#wrapper-bottom
+{
+    grid-row: 2/3;
+    grid-column: 1/2;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+}
+
+#wrapper-bottom > *
+{
+    margin: 10px;
+    height: fit-content;
+}
+
+#tags
+{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+#tags > * 
+{
+    margin-left: 5px;
+}
+
+#wrapper-edit
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#wrapper-edit:not(:last-child) > *
+{
+    margin-bottom: 15px;
+}
+
+#wrapper-edit > *
+{
+    border: rgb(240, 240, 240) solid 1px;
+    border-radius: 10px;
+    background-color: rgb(210, 210, 210);
+    margin: 10px;
+}
+
+#wrapper-edit > * > *
+{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
