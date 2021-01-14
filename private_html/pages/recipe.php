@@ -1,4 +1,12 @@
 <?php
+if(!isset($_SESSION['uid']))
+{
+    $userId = -1;
+}
+else
+{
+    $userId = $_SESSION['uid'];
+}
 
 if(isset($_GET['edit']))
 {
@@ -30,7 +38,7 @@ if ($EditMode)
 
     if (isset($_GET['id']))
     {
-        $returnData = $dbCon->GetRecipe($_GET['id'],$_SESSION['uid']);
+        $returnData = $dbCon->GetRecipe($_GET['id'],$userId);
 
         if ($returnData['returnCode'] == 'e202')
         {
@@ -52,7 +60,7 @@ else
 {
     if (isset($_GET['id']))
     {
-        $returnData = $dbCon->GetRecipe($_GET['id'],$_SESSION['uid']);
+        $returnData = $dbCon->GetRecipe($_GET['id'],$userId);
 
         if ($returnData['returnCode'] == 'e202')
         {
