@@ -42,11 +42,11 @@ class DB
             $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
             // set the PDO error mode to exception
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            return  array('returnCode' => 'e101', 'msg' => "Connected successfully");
+            return  array('returnCode' => 's000', 'msg' => "Connected successfully");
         }
         catch(PDOException $e)
         {
-            return  array('returnCode' => 'e102', 'msg' => $e->getMessage());
+            return  array('returnCode' => 'e001', 'msg' => $e->getMessage());
         }
     }
 
@@ -55,7 +55,7 @@ class DB
         Global $conn;
 
         $conn = null;
-        return  array('returnCode' => 'e101', 'msg' => "Connection closed");
+        return  array('returnCode' => 's001', 'msg' => "Connection closed");
     }
     //-- Connection Functions End --//
 
@@ -68,7 +68,7 @@ class DB
         {
             try
             {
-                $stmt = $conn->prepare("SELECT * FROM DigitalCookbook__Users WHERE ´id´ = $userId");
+                $stmt = $conn->prepare("SELECT * FROM DigitalCookbook__Users WHERE `id` = $userId");
                 $stmt->execute();
 
                 $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
@@ -77,16 +77,16 @@ class DB
 
                 if ($stmt->rowCount() > 0)
                 {
-                    return  array('returnCode' => 'e100', 'id' => $userData[0]['id'], 'email' => $userData[0]['email'], 'admin' => $userData[0]['admin']); 
+                    return  array('returnCode' => 's010', 'id' => $userData[0]['id'], 'email' => $userData[0]['email'], 'admin' => $userData[0]['admin']); 
                 }
                 else
                 {
-                    return  array('returnCode' => 'e102', 'msg' => "account not found"); 
+                    return  array('returnCode' => 'e010', 'msg' => "account not found"); 
                 }  
             }
             catch(PDOException $e)
             {
-                return  array('returnCode' => 'e101', 'msg' => $e->getMessage()); 
+                return  array('returnCode' => 'e011', 'msg' => $e->getMessage()); 
             }
         }
     }
@@ -108,16 +108,16 @@ class DB
 
                 if ($stmt->rowCount() > 0)
                 {
-                    return  array('returnCode' => 'e100', 'id' => $userData[0]['id'], 'email' => $userData[0]['email'], 'admin' => $userData[0]['admin']); 
+                    return  array('returnCode' => 's020', 'id' => $userData[0]['id'], 'email' => $userData[0]['email'], 'admin' => $userData[0]['admin']); 
                 }
                 else
                 {
-                    return  array('returnCode' => 'e102', 'msg' => "account not found"); 
+                    return  array('returnCode' => 'e020', 'msg' => "account not found"); 
                 }               
             }
             catch(PDOException $e)
             {
-                return  array('returnCode' => 'e101', 'msg' => $e->getMessage()); 
+                return  array('returnCode' => 'e021', 'msg' => $e->getMessage()); 
             }
         }
     }
@@ -137,18 +137,18 @@ class DB
 
                 $IdCheckObject = $this->GetUserDetailsByEmail($email);
 
-                if ($IdCheckObject['returnCode'] == 'e100')
+                if ($IdCheckObject['returnCode'] == 's020')
                 {
-                    return  array('returnCode' => 'e100', 'msg' => "User Was created!", 'id' => $IdCheckObject['id']); 
+                    return  array('returnCode' => 's030', 'msg' => "User Was created!", 'id' => $IdCheckObject['id']); 
                 }
                 else
                 {
-                    return  array('returnCode' => 'e103', 'msg' => "Account could not be created. Unknown error");
+                    return  array('returnCode' => 'e030', 'msg' => "Account could not be created. Unknown error");
                 }                
             }
             catch(PDOException $e)
             {
-                return  array('returnCode' => 'e101', 'msg' => $e->getMessage()); 
+                return  array('returnCode' => 'e031', 'msg' => $e->getMessage()); 
             }
         }
     }
@@ -163,7 +163,7 @@ class DB
         {
             try
             {
-                $stmt = $conn->prepare("SELECT * FROM DigitalCookbook__Recipes WHERE `id` = '$userId'");
+                $stmt = $conn->prepare("SELECT * FROM DigitalCookbook__Recipes WHERE `id` = '$recipeId' AND `userId` = '$userId'");
                 $stmt->execute();
 
                 $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
@@ -173,7 +173,7 @@ class DB
                 if ($stmt->rowCount() > 0)
                 {
                     return  array(
-                        'returnCode' => 's100',
+                        'returnCode' => 's040',
                         'id' => $recipeData[0]['id'],
                         'ownerId' => $recipeData[0]['ownerId'],
                         'name' => $recipeData[0]['name'],
@@ -191,12 +191,12 @@ class DB
                 }
                 else
                 {
-                    return  array('returnCode' => 'e202', 'msg' => "recepie not found"); 
+                    return  array('returnCode' => 'e040', 'msg' => "recepie not found"); 
                 }  
             }
             catch(PDOException $e)
             {
-                return  array('returnCode' => 'e201', 'msg' => $e->getMessage()); 
+                return  array('returnCode' => 'e041', 'msg' => $e->getMessage()); 
             }
         }
     }
@@ -204,8 +204,6 @@ class DB
     public function CreateRecipe($recipeData, $userId)
     {
         Global $conn;
-
-        $uid = $_SESSION['uid'];
 
         $title = $recipeData->title;
         $imageData = $recipeData->imageData;
@@ -227,32 +225,106 @@ class DB
         {
             try
             {
-                $sql = "INSERT INTO `DigitalCookbook__Recipes`(`ownerId`, `name`, `time`, `portions`, `scalable`, `tags`, `difficulty`, `picture`, `description`, `ingredients`, `instructions`, `accessibility`) VALUES ('$uid','$title','$time','$portions','$scalable','$tags','$difficulty','$imageData','$description','$ingredients','$howTo','$accessibility')";
+                $sql = "INSERT INTO `DigitalCookbook__Recipes`(`ownerId`, `name`, `time`, `portions`, `scalable`, `tags`, `difficulty`, `picture`, `description`, `ingredients`, `instructions`, `accessibility`) VALUES ('$userId','$title','$time','$portions','$scalable','$tags','$difficulty','$imageData','$description','$ingredients','$howTo','$accessibility')";
                 
                 
                 $conn->exec($sql);
-                return  json_encode(array('returnCode' => 's100', 'msg' => "Recipe Was created!"));              
+
+                $responseDataFromInternalFunction = $this->GetUserLatestRecipe($userId);
+
+                if (isset($responseDataFromInternalFunction['id']))
+                {
+                    $relationResponseData = $this->AddRecipeRelation($responseDataFromInternalFunction['id'], $userId, $category);
+                    if ($relationResponseData['returnCode'] == "s090")
+                    {
+                        return  json_encode(array('returnCode' => 's050', 'msg' => "Recipe Was created!", 'id' => $responseDataFromInternalFunction['id']));              
+                    }
+                    else
+                    {
+                        $relationResponseData['returnCode'] == "e050";
+                        return json_encode($relationResponseData);
+                    }
+                    
+                }
+                else
+                {
+                    $responseDataFromInternalFunction['returnCode'] == "e051";
+                    return json_encode($responseDataFromInternalFunction);
+                }
+                
             }
             catch(PDOException $e)
             {
-                return  json_encode(array('returnCode' => 'e101', 'msg' => $e->getMessage())); 
+                return  json_encode(array('returnCode' => 'e052', 'msg' => "CreateRecipe: ".$e->getMessage())); 
+            }
+        }
+    }
+
+    private function GetUserLatestRecipe($userId)
+    {
+        Global $conn;
+
+        if(isset($conn))
+        {
+            try
+            {
+                $stmt = $conn->prepare("SELECT `id` FROM DigitalCookbook__Recipes WHERE `ownerId` = '$userId' ORDER BY `id` DESC");
+                $stmt->execute();
+
+                $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+                $recipeData = $stmt->fetchAll();
+
+                if ($stmt->rowCount() > 0)
+                {
+                    return  array(
+                        'returnCode' => 's060',
+                        'id' => $recipeData[0]['id']
+                    ); 
+                }
+                else
+                {
+                    return  array('returnCode' => 'e060', 'msg' => "no new recepie not found"); 
+                }  
+            }
+            catch(PDOException $e)
+            {
+                return  array('returnCode' => 'e061', 'msg' => "GetUserLatestRecipe".$e->getMessage()); 
             }
         }
     }
 
     public function UpdateRecipe($recipeId, $recipeData)
     {
-        
+        //070
     }
 
     public function RemoveRecipe($recipeId)
     {
-        
+        //080
     }
     
-    public function AddRecipeRelation($recipeId, $userId)
+    private function AddRecipeRelation($recipeId, $userId, $folderId)
     {
-        
+        Global $conn;
+
+
+        if(isset($conn))
+        {
+            try
+            {
+                $sql = "INSERT INTO `DigitalCookbook__Relations`(`recipeId`, `reciverId`, `folderId`) VALUES ('$recipeId', '$userId', '$folderId')";
+                
+                $conn->exec($sql);
+
+                return  array('returnCode' => 's090', 'msg' => "Relation Was created!");              
+                
+            }
+            catch(PDOException $e)
+            {
+                return  array('returnCode' => 'e090', 'msg' => "AddRecipeRelation: ".$e->getMessage()); 
+            }
+        }
     }
 
     //-- Recepie Management Functions End --//
@@ -295,12 +367,12 @@ class DB
                 }
                 else
                 {
-                    return  array('returnCode' => 'e202', 'msg' => "no categories found"); 
+                    return  array('returnCode' => 'e100', 'msg' => "no categories found"); 
                 }  
             }
             catch(PDOException $e)
             {
-                return  array('returnCode' => 'e201', 'msg' => $e->getMessage()); 
+                return  array('returnCode' => 'e101', 'msg' => $e->getMessage()); 
             }
         }
     }
@@ -335,18 +407,18 @@ class DB
                         }
 
                     return  array(
-                        'returnCode' => 's100',
+                        'returnCode' => 's110',
                         'categories' => $categories
                     ); 
                 }
                 else
                 {
-                    return  array('returnCode' => 'e202', 'msg' => "no categories found"); 
+                    return  array('returnCode' => 'e110', 'msg' => "no categories found"); 
                 }  
             }
             catch(PDOException $e)
             {
-                return  array('returnCode' => 'e201', 'msg' => $e->getMessage()); 
+                return  array('returnCode' => 'e111', 'msg' => $e->getMessage()); 
             }
         }
     }
@@ -365,11 +437,11 @@ class DB
                 
                 // use exec() because no results are returned
                 $conn->exec($sql);
-                return  json_encode(array('returnCode' => 's100', 'msg' => "Folder Was created!"));              
+                return  json_encode(array('returnCode' => 's120', 'msg' => "Folder Was created!"));              
             }
             catch(PDOException $e)
             {
-                return  json_encode(array('returnCode' => 'e101', 'msg' => $e->getMessage())); 
+                return  json_encode(array('returnCode' => 'e120', 'msg' => $e->getMessage())); 
             }
         }
     }
@@ -388,11 +460,11 @@ class DB
                 
                 // use exec() because no results are returned
                 $conn->exec($sql);
-                return  json_encode(array('returnCode' => 's100', 'msg' => "Folder Was removed!"));              
+                return  json_encode(array('returnCode' => 's130', 'msg' => "Folder Was removed!"));              
             }
             catch(PDOException $e)
             {
-                return  json_encode(array('returnCode' => 'e101', 'msg' => $e->getMessage())); 
+                return  json_encode(array('returnCode' => 'e130', 'msg' => $e->getMessage())); 
             }
         }
     }
@@ -421,14 +493,14 @@ class DB
                     }
                     catch(PDOException $e)
                     {
-                        return  json_encode(array('returnCode' => 'e101', 'msg' => $e->getMessage())); 
+                        return  json_encode(array('returnCode' => 'e140', 'msg' => $e->getMessage())); 
                     }
                 }
-                return  json_encode(array('returnCode' => 's100', 'msg' => "Updated category order")); 
+                return  json_encode(array('returnCode' => 's140', 'msg' => "Updated category order")); 
             }
             catch (Exception $me)
             {
-                return  json_encode(array('returnCode' => 'e101', 'msg' => $me->getMessage())); 
+                return  json_encode(array('returnCode' => 'e141', 'msg' => $me->getMessage())); 
             }
         }
     }
@@ -467,18 +539,18 @@ class DB
                         }
 
                     return  array(
-                        'returnCode' => 's100',
+                        'returnCode' => 's150',
                         'tags' => $tags
                     ); 
                 }
                 else
                 {
-                    return  array('returnCode' => 'e202', 'msg' => "no tags found"); 
+                    return  array('returnCode' => 'e150', 'msg' => "no tags found"); 
                 }  
             }
             catch(PDOException $e)
             {
-                return  array('returnCode' => 'e201', 'msg' => $e->getMessage()); 
+                return  array('returnCode' => 'e151', 'msg' => $e->getMessage()); 
             }
         }
     }

@@ -300,6 +300,17 @@ function SendToServer($debugMessage = null)
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             console.log(this.responseText);
+            
+            responseJSON = JSON.parse(this.response);
+
+            if (typeof responseJSON.id !== 'undefined')
+            {
+                location.href = window.location.href.substr(0,window.location.href.length - window.location.search.length) + "/?page=recipe&id=" + responseJSON.id;
+            }
+            else
+            {
+                console.error("Recipe ID not returned.");
+            }
        }
     };
     xhttp.open("POST", "callback.php", true);
