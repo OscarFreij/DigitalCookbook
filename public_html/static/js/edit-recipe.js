@@ -163,7 +163,11 @@ function ProcessRecipe() {
     
     var object = new Object();
     object.title = $('#recipe_title')[0].value;
-    object.imageData = imageData;
+    if (imageData != "")
+    {
+        object.imageData = btoa(encodeURIComponent(imageData));
+    }
+    
     
     try
     {

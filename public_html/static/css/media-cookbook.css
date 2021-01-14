@@ -4,4 +4,21 @@
     {
         min-width: 100vw;
     }
+
+    .recipeRow > a
+    {
+        grid-template-rows: 1fr auto auto;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .recipeRow > a > div
+    {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .recipeRow > a > div > *:not(:last-child)
+    {
+        margin-bottom: 5px;
+    }
 }

@@ -31,6 +31,24 @@ document.addEventListener("DOMContentLoaded", function() {
     } catch (error) {
         
     }
+
+    try
+    {
+        var $recipes = $('#content_wrapper').find('.recipeRow');
+        for (let i = 0; i < $recipes.length; i++) {
+            const element = $recipes[i];
+            
+            if (element.children[0].children[0].src == window.location.href)
+            {
+                element.children[0].children[0].src = "static/media/food.svg";
+            }
+
+        }
+    }
+    catch (error)
+    {
+        
+    }
     
 });
 
@@ -168,7 +186,7 @@ function ToggleEdit()
             addEditBtn(element);
         }
         editingMode = true;    
-        $('#ToggleEditBtn')[0].innerText = "Save";
+        $('#ToggleEditBtn')[0].innerText = "Spara";
         $('#ToggleEditBtn')[0].setAttribute("class", "btn btn-success");
     }
     else
@@ -178,7 +196,7 @@ function ToggleEdit()
             removeEditBtn(element);
         }
         editingMode = false;    
-        $('#ToggleEditBtn')[0].innerText = "Edit";
+        $('#ToggleEditBtn')[0].innerText = "Ändra";
         $('#ToggleEditBtn')[0].setAttribute("class", "btn btn-warning");
         updateCategories();
     }

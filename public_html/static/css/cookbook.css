@@ -43,7 +43,7 @@
 
 #category_wrapper > *:hover
 {
-    background-color: rgba(120, 120, 120, 1);
+    background-color: rgb(216, 216, 216);
     transition-duration: 0.25s;
 }
 
@@ -103,4 +103,24 @@
     text-align: center;
     align-self: center;
     margin: 0;
+}
+
+.recipeRow > *
+{
+    text-decoration: none!important;
+    display: grid;
+    grid-template-rows: minmax(120px, auto);
+    grid-template-columns: 1fr 2fr 1fr 1fr 1fr 1fr;
+}
+
+.recipeRow
+{
+    transition-duration: 0.25s;
+}
+
+.recipeRow:hover
+{
+    background-color: rgb(216, 216, 216);
+    transition-duration: 0.25s;
+    border: solid gray 2px;
 }
