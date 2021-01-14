@@ -57,6 +57,14 @@ if (isset($_GET['page']))
             }
         }
     }
+
+    if ($activePage == "recipe" && isset($_GET['edit']))
+    {
+        if ($_GET['edit'] == true && !isset($_SESSION['email']))
+        {
+            $activePage = "askToLogin";
+        }
+    }
 }
 else
 {
