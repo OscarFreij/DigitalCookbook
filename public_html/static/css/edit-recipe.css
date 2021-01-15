@@ -144,3 +144,9 @@ input
 {
     width: 100%;
 }
+
+#container_img
+{
+    display: flex;
+    flex-direction: column;
+}

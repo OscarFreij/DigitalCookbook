@@ -21,7 +21,7 @@
                 echo($dbCon->UpdateCategories($_POST['JSON_Categories']));
                 break;
 
-            case 'GetRecipes':
+            case 'GetRecipe':
                 echo($dbCon->GetRecipe($_POST['id'], $_SESSION['uid']));
                 break;
 

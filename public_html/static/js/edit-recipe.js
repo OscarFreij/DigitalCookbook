@@ -8,6 +8,22 @@ document.addEventListener("DOMContentLoaded", function()
 {
     GetImage();
     EditQuill();
+
+    /*
+    if (GetURLID() != false)
+    {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                console.log(this.responseText);
+                PutContent(JSON.parse(this.response));
+           }
+        };
+        xhttp.open("POST", "callback.php", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send("action="+action+"&id="+GetURLID());
+    }
+    */
 }
 );
 
@@ -78,11 +94,31 @@ function GetURLID()
     }
 }
 
-function PutContent() {
+function PutContent($recipeObject) {
+    
+
+    updateRecipe = true;
+
+    if (typeof($recipeObject.imageData) != "undefined")
+    {
+        $('#container_img')[0].appendChild(document.createElement("img"));
+        $('#container_img')[0].children[$('#container_img')[0].children.length-1].src = decodeURI(btoa($recipeObject.imageData));
+        $('#container_img')[0].children[$('#container_img')[0].children.length-1].style.width = "288px";
+        $('#container_img')[0].children[$('#container_img')[0].children.length-1].style.height = "288px";
+        $('#container_img')[0].children[$('#container_img')[0].children.length-1].style.alignSelf = "center";
+    }
+    
+
+    $('#recipe_title')[0].value = $recipeObject.title;
+    $('#recipe_portions')[0].value = $recipeObject.portions;
+
+    /*
+     * Add the other things
+     */
     
 }
 
-function AddRowIngredients()
+function AddRowIngredients($data)
 {
     var row = document.createElement("div");
     row.classList.add("tRow");
@@ -145,8 +181,23 @@ function GetImage() {
           reader = new FileReader();
       
         reader.onloadend = function () {
-            var b64 = reader.result;//.replace(/^data:.+;base64,/, '');
+            var b64 = reader.result;
             imageData = b64;
+            
+            if ($('#container_img')[0].children[$('#container_img')[0].children.length-1].nodeName == "IMG")
+            {
+                $('#container_img')[0].children[$('#container_img')[0].children.length-1].src = imageData;
+            }
+            else
+            {
+                $('#container_img')[0].appendChild(document.createElement("img"));
+                $('#container_img')[0].children[$('#container_img')[0].children.length-1].src = imageData;
+                $('#container_img')[0].children[$('#container_img')[0].children.length-1].style.width = "288px";
+                $('#container_img')[0].children[$('#container_img')[0].children.length-1].style.height = "288px";
+                $('#container_img')[0].children[$('#container_img')[0].children.length-1].style.alignSelf = "center";
+            }
+            
+            
         };
       
         reader.readAsDataURL(file);
@@ -171,15 +222,9 @@ function ProcessRecipe() {
     
     try
     {
-        var searchString = "id=";
-        var searchString2 = "&edit=";
-        var url = window.location.href;
-        var startPos = url.indexOf(searchString)+searchString.length;
-        var startPos2 = url.indexOf(searchString2);
-        var lenght = startPos2-startPos;
-        var id = url.substr(startPos,lenght);
+        id = GetURLID();
         
-        if(id.lenght > 0)
+        if(id != false)
         {
             object.id = id;
             updateRecipe = true;
