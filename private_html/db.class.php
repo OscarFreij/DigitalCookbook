@@ -255,8 +255,15 @@ class DB
     {
         Global $conn;
 
-        $title = $recipeData->title;
-        $imageData = $recipeData->imageData;
+        $title = $recipeData->title;        
+        if (isset($recipeData->imageData))
+        {
+            $imageData = $recipeData->imageData;
+        }
+        else
+        {
+            $imageData = "";
+        }
         $portions = $recipeData->portions;
         $scalable = $recipeData->scalable;
         $time = $recipeData->time;
