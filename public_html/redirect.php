@@ -37,14 +37,14 @@
 
     $userInfo = $dbConn->GetUserDetailsByEmail($_SESSION['email']);
     
-    if ($userInfo['returnCode'] == 's020')
+    if ($userInfo['returnCode'] == 's021')
     {
         $userInfo = $dbConn->CreateAccount($_SESSION['email']);
         
         $_SESSION['uid'] = $userInfo['id'];
         $_SESSION['admin_level'] = 0;
     }
-    else if ($userInfo['returnCode'] == 's021')
+    else if ($userInfo['returnCode'] == 's020')
     {
         $_SESSION['uid'] = $userInfo['id'];
         $_SESSION['admin_level'] = $userInfo['admin'];

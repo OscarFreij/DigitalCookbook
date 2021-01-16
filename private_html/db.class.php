@@ -117,7 +117,7 @@ class DB
             }
             catch(PDOException $e)
             {
-                return  array('returnCode' => 'e021', 'msg' => $e->getMessage()); 
+                return  array('returnCode' => 'e020', 'msg' => $e->getMessage()); 
             }
         }
     }
