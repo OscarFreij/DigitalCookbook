@@ -112,7 +112,7 @@ class DB
                 }
                 else
                 {
-                    return  array('returnCode' => 'e020', 'msg' => "account not found"); 
+                    return  array('returnCode' => 's021', 'msg' => "account not found"); 
                 }               
             }
             catch(PDOException $e)
