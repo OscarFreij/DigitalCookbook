@@ -168,6 +168,20 @@ function addEditBtn(row)
 function removalModalUpdate(id)
 {
     $('#removalModal').find('.modal-footer')[0].children[0].setAttribute("onClick", "removeCategory("+id+")");
+    
+    var $categories = $('#category_wrapper').find('.category');
+
+    for (let i = 0; i < $categories.length; i++) {
+        const element = $categories[i];
+        if (element.dataset.categoryid == id)
+        {
+            $('#removalModalCName')[0].innerText = element.children[0].innerText;
+            break;
+        }
+    }
+
+
+    
 }
 
 function removeEditBtn(row)
@@ -219,6 +233,7 @@ function ToggleMenu() {
         
         $('#bottom_wrapper')[0].insertBefore($('#edit_wrapper')[0].children[2],$('#bottom_wrapper')[0].children[0]);
 
+        $('#ToggleMenuBtn')[0].innerText = "Öppna kategori meny";
         categoryIsOpen = false;
     }
     else
@@ -228,6 +243,7 @@ function ToggleMenu() {
 
         $('#edit_wrapper')[0].appendChild($('#bottom_wrapper')[0].children[0]);
 
+        $('#ToggleMenuBtn')[0].innerText = "Stäng kategori meny";
         categoryIsOpen = true;
     }
 }

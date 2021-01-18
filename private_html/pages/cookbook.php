@@ -55,7 +55,7 @@
 <div id="edit_wrapper" class="btn-group category_menu" data-menuisopen="true">
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#AddCategoryModal">Lägg till kategori</button>
     <button type="button" class="btn btn-warning" id="ToggleEditBtn" onClick="ToggleEdit()">Ändra</button>
-    <button type="button" class="btn btn-primary" id="ToggleMenuBtn" onClick="ToggleMenu()">Toggla menyn</button>
+    <button type="button" class="btn btn-primary" id="ToggleMenuBtn" onClick="ToggleMenu()">Stäng kategori meny</button>
 </div>
 
 <div id="bottom_wrapper" class="btn-group">

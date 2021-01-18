@@ -3,14 +3,14 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title" id="staticBackdropLabel_1">Are you sure?</h5>
+            <h5 class="modal-title" id="staticBackdropLabel_1">Är du säker?</h5>
         </div>
         <div class="modal-body">
-            Are you sure you want to remove category with name: <p>CATEGORY_NAME</p>
+            Är du säker att du vill ta bort kategorin med namnet: <span id="removalModalCName">CATEGORY_NAME</span>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-success" data-bs-dismiss="modal">Confirm</button>    
-            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>                
+            <button type="button" class="btn btn-success" data-bs-dismiss="modal">Ja</button>    
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Avbryt</button>                
         </div>
         </div>
     </div>
@@ -21,15 +21,15 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title" id="staticBackdropLabel_2">Create new category</h5>
+            <h5 class="modal-title" id="staticBackdropLabel_2">Skapa ny kategori</h5>
         </div>
         <div class="modal-body">
-            Enter category name:
+            Skriv in kategorin namn:
             <input type="text" class="form-control" id="ACMNameInput">
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-success" data-bs-dismiss="modal" onclick="addCategory()">Create</button>    
-            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>                
+            <button type="button" class="btn btn-success" data-bs-dismiss="modal" onclick="addCategory()">Skapa</button>    
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Avbryt</button>                
         </div>
         </div>
     </div>
