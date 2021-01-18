@@ -170,40 +170,69 @@ class DB
 
                 $recipeData = $stmt->fetchAll();
 
+                
+
                 if ($stmt->rowCount() > 0)
                 {
-                    return  array(
-                        'returnCode' => 's040',
-                        'id' => $recipeData[0]['id'],
-                        'ownerId' => $recipeData[0]['ownerId'],
-                        'name' => $recipeData[0]['name'],
-                        'time' => $recipeData[0]['time'],
-                        'portions' => $recipeData[0]['portions'],
-                        'scalable' => $recipeData[0]['scalable'],
-                        'tags' => $recipeData[0]['tags'],
-                        'difficulty' => $recipeData[0]['difficulty'],
-                        'picture' => $recipeData[0]['picture'],
-                        'description' => $recipeData[0]['description'],
-                        'ingredients' => $recipeData[0]['ingredients'],
-                        'instructions' => $recipeData[0]['instructions'],
-                        'tips' => $recipeData[0]['tips'],
-                        'serving' => $recipeData[0]['serving'],
-                        'accessibility' => $recipeData[0]['accessibility']
-                    ); 
+                    $relationsData = $this->GetRecipeUserRelation($recipeId, $userId);
+                    if ($relationsData['returnCode'] == 's200')
+                    {
+                        return  array(
+                            'returnCode' => 's041',
+                            'id' => $recipeData[0]['id'],
+                            'ownerId' => $recipeData[0]['ownerId'],
+                            'name' => $recipeData[0]['name'],
+                            'time' => $recipeData[0]['time'],
+                            'portions' => $recipeData[0]['portions'],
+                            'scalable' => $recipeData[0]['scalable'],
+                            'tags' => $recipeData[0]['tags'],
+                            'difficulty' => $recipeData[0]['difficulty'],
+                            'picture' => $recipeData[0]['picture'],
+                            'description' => $recipeData[0]['description'],
+                            'ingredients' => $recipeData[0]['ingredients'],
+                            'instructions' => $recipeData[0]['instructions'],
+                            'tips' => $recipeData[0]['tips'],
+                            'serving' => $recipeData[0]['serving'],
+                            'accessibility' => $recipeData[0]['accessibility'],
+                            'relationsData' => $relationsData
+                        ); 
+                    }
+                    else
+                    {
+                        return  array(
+                            'returnCode' => 's040',
+                            'id' => $recipeData[0]['id'],
+                            'ownerId' => $recipeData[0]['ownerId'],
+                            'name' => $recipeData[0]['name'],
+                            'time' => $recipeData[0]['time'],
+                            'portions' => $recipeData[0]['portions'],
+                            'scalable' => $recipeData[0]['scalable'],
+                            'tags' => $recipeData[0]['tags'],
+                            'difficulty' => $recipeData[0]['difficulty'],
+                            'picture' => $recipeData[0]['picture'],
+                            'description' => $recipeData[0]['description'],
+                            'ingredients' => $recipeData[0]['ingredients'],
+                            'instructions' => $recipeData[0]['instructions'],
+                            'tips' => $recipeData[0]['tips'],
+                            'serving' => $recipeData[0]['serving'],
+                            'accessibility' => $recipeData[0]['accessibility']
+                        ); 
+                    }
+                    
                 }
                 else
                 {
-                    return  array('returnCode' => 'e040', 'msg' => "recepie not found"); 
+                    return array('returnCode' => 'e040', 'msg' => "recepie not found"); 
                 }  
             }
             catch(PDOException $e)
             {
-                return  array('returnCode' => 'e041', 'msg' => $e->getMessage()); 
+                return array('returnCode' => 'e041', 'msg' => $e->getMessage()); 
             }
         }
     }
 
-    private function GetRecipeOnlyID($recipeId)
+    public function GetRecipeOnlyID($recipeId)
     {
         Global $conn;
 
@@ -220,7 +249,7 @@ class DB
 
                 if ($stmt->rowCount() > 0)
                 {
-                    return  array(
+                    return array(
                         'returnCode' => 's180',
                         'id' => $recipeData[0]['id'],
                         'ownerId' => $recipeData[0]['ownerId'],
@@ -237,7 +266,7 @@ class DB
                         'tips' => $recipeData[0]['tips'],
                         'serving' => $recipeData[0]['serving'],
                         'accessibility' => $recipeData[0]['accessibility']
-                    ); 
+                    );
                 }
                 else
                 {
@@ -269,9 +298,9 @@ class DB
         $time = $recipeData->time;
         $ingredients = json_encode($recipeData->ingredients);
         $howTo = json_encode($recipeData->howTo);
-        $description = json_encode($recipeData->description);
-        $serving = json_encode($recipeData->serving);
-        $tips = json_encode($recipeData->tips);
+        $description = $recipeData->description;
+        $serving = $recipeData->serving;
+        $tips = $recipeData->tips;
         $tags = json_encode($recipeData->tags);
         $difficulty = $recipeData->difficulty;
         $category = $recipeData->category;
@@ -414,6 +443,40 @@ class DB
             catch(PDOException $e)
             {
                 return  array('returnCode' => 'e160', 'msg' => "GetAllUserRecipeRelatios".$e->getMessage()); 
+            }
+        }
+    }
+
+    public function GetRecipeUserRelation($recipeId, $userId)
+    {
+        Global $conn;
+
+        if(isset($conn))
+        {
+            try
+            {
+                $stmt = $conn->prepare("SELECT * FROM DigitalCookbook__Relations WHERE `reciverId` = '$userId' AND `recipeId` = '$recipeId'");
+                $stmt->execute();
+
+                $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+                $relationsData = $stmt->fetchAll();
+
+                if ($stmt->rowCount() > 0)
+                {
+                    return  array(
+                        'returnCode' => 's200',
+                        'relations' => $relationsData[0]
+                    ); 
+                }
+                else
+                {
+                    return  array('returnCode' => 's201', 'msg' => "no relation found"); 
+                }  
+            }
+            catch(PDOException $e)
+            {
+                return  array('returnCode' => 'e200', 'msg' => "GetRecipeUserRelation".$e->getMessage()); 
             }
         }
     }
@@ -668,7 +731,7 @@ class DB
                 return  json_encode(array('returnCode' => 'e141', 'msg' => $me->getMessage())); 
             }
         }
-    }
+    }    
     
     //-- Category Management Functions End --//
 

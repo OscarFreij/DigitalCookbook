@@ -39,7 +39,7 @@
                     }
                 }
             }
-            else if ($returnData['s161'])
+            else if ($returnData['returnCode'] == "s161")
             {
                 echo("No relations found!");
             }

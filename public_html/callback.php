@@ -22,7 +22,7 @@
                 break;
 
             case 'GetRecipe':
-                echo($dbCon->GetRecipe($_POST['id'], $_SESSION['uid']));
+                echo(json_encode($dbCon->GetRecipe($_POST['id'], $_SESSION['uid'])));
                 break;
 
             case 'CreateRecipe':

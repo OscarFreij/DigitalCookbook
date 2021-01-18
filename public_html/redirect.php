@@ -52,6 +52,6 @@
     }
 
     $dbConn->Close_Connection();
-    //header('Location: '.$path); 
+    header('Location: '.$path); 
     exit();
 ?>

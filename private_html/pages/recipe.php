@@ -40,35 +40,78 @@ if ($EditMode)
     {
         $returnData = $dbCon->GetRecipe($_GET['id'],$userId);
 
-        if ($returnData['returnCode'] == 'e202')
+        if ($returnData['returnCode'] == 'e040')
         {
             $newRecipe = true;
+            echo("ERROR 404 - Recipie not found!");
         }
         else
         {
             $newRecipe = false;
+            
+            if ($returnData['ownerId'] == $userId)
+            {
+                Include($modulePath."edit-recipe.php");
+            }
+            else
+            {
+                echo("ERROR 403 - ACCESS DENIED!");
+            }
         }
     }
     else
     {
         $newRecipe = true;
+        Include($modulePath."edit-recipe.php");
     }
-
-    Include($modulePath."edit-recipe.php");
+    
 }
 else
 {
     if (isset($_GET['id']))
     {
-        $returnData = $dbCon->GetRecipe($_GET['id'],$userId);
+        $returnData = $dbCon->GetRecipeOnlyId($_GET['id']);
 
-        if ($returnData['returnCode'] == 'e202')
+        if ($returnData['returnCode'] == 'e180')
         {
             echo("ERROR 404 - Recipie not found!");
         }
         else
         {
-            Include($modulePath."view-recipe.php");
+            if ($returnData['accessibility'] == 1)
+            {
+                $returnData_2 = $dbCon->GetRecipeUserRelation($_GET['id'], $userId);
+
+                if ($returnData_2['returnCode'] == 's200')
+                {
+                    Include($modulePath."view-recipe.php");
+                }
+                else
+                {
+                    echo("ERROR 403 - ACCESS DENIED!");
+                }
+            }
+            else if ($returnData['accessibility'] == 0)
+            {
+                if ($returnData['ownerId'] == $userId)
+                {
+                    Include($modulePath."view-recipe.php");
+                }
+                else
+                {
+                    echo("ERROR 403 - ACCESS DENIED!");
+                }
+
+            }
+            else if ($returnData['accessibility'] == 2)
+            {
+                Include($modulePath."view-recipe.php");
+            }
+            else
+            {
+                echo("ERROR ### - Unknown error!");
+            }
+            
         }
     }
     else
