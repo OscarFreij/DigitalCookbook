@@ -10,14 +10,13 @@ document.addEventListener("DOMContentLoaded", function()
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
-                console.log(this.responseText);
-                PutContent(JSON.parse(this.response));
                 responsDATA = JSON.parse(this.response);
+                PutContent(JSON.parse(this.response));
            }
         };
         xhttp.open("POST", "callback.php", true);
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xhttp.send("action=GetRecipe&id="+GetURLID());
+        xhttp.send("action=GetRecipeOnlyID&id="+GetURLID());
     }
 }
 );
@@ -67,8 +66,16 @@ function GetURLID()
     var url = window.location.href;
     var startPos = url.indexOf(searchString)+searchString.length;
     var startPos2 = url.indexOf(searchString2);
-    var length = startPos2-startPos;
-    var id = url.substr(startPos,length);
+    if (startPos2 = -1)
+    {
+        var length = url.length-startPos;
+        var id = url.substr(startPos,length);
+    }
+    else
+    {
+        var length = startPos2-startPos;
+        var id = url.substr(startPos,length);
+    }
     
     if (!isNaN(id))
     {
@@ -80,25 +87,21 @@ function GetURLID()
     }
 }
 
-function PutContent($recipeObject) {
-    
-
-    updateRecipe = true;
-
-    if (typeof($recipeObject.picture) != "undefined")
+function PutContent($recipeObject)
+{
+    if (typeof($recipeObject.picture) != "undefined" && $recipeObject.picture != "")
     {
-        $('#container_img')[0].appendChild(document.createElement("img"));
-        $('#container_img')[0].children[$('#container_img')[0].children.length-1].src = decodeURIComponent(atob($recipeObject.picture));
-        $('#container_img')[0].children[$('#container_img')[0].children.length-1].style.width = "288px";
-        $('#container_img')[0].children[$('#container_img')[0].children.length-1].style.height = "288px";
-        $('#container_img')[0].children[$('#container_img')[0].children.length-1].style.alignSelf = "center";
+        $('#recipe_image')[0].src = decodeURIComponent(atob($recipeObject.picture));
+        $('#recipe_image')[0].style.width = "288px";
+        $('#recipe_image')[0].style.height = "288px";
+        $('#recipe_image')[0].style.alignSelf = "center";
         imageData = decodeURIComponent(atob($recipeObject.picture));
     }
 
-    $('#recipe_title')[0].value = $recipeObject.name;
-    $('#recipe_portions')[0].value = $recipeObject.portions;
+    $('#recipe_title')[0].innerText = $recipeObject.name;
+    $('#recipe_portions')[0].children[0].innerText = $recipeObject.portions;
     
-    
+    /*
     if ($recipeObject.scalable == 1)
     {
         $('#recipe_scalable_yes')[0].checked = true;
@@ -107,81 +110,77 @@ function PutContent($recipeObject) {
     {
         $('#recipe_scalable_no')[0].checked = true;
     }
-
+    */
+   
     $('#recipe_time')[0].value = $recipeObject.time;
 
     switch ($recipeObject.difficulty) {
         case 0:
-            $('#recipe_difficulty_fast')[0].checked = true;
+            $('#recipe_difficulty')[0].children[0].innerText = "Snabb";
             break;
         case 1:
-            $('#recipe_difficulty_basic')[0].checked = true;
+            $('#recipe_difficulty')[0].children[0].innerText = "Basic";
             break;
         case 2:
-            $('#recipe_difficulty_avrage')[0].checked = true;
+            $('#recipe_difficulty')[0].children[0].innerText = "Normal";
             break;
         case 3:
-            $('#recipe_difficulty_advanced')[0].checked = true;
+            $('#recipe_difficulty')[0].children[0].innerText = "Advancerad";
             break;
     }
     
-    $('#recipe_accessibility')[0].value = $recipeObject.accessibility;
-    
-    $('#recipe_category')[0].value = $recipeObject.relationsData.relations.folderId;
-
     var QuillArray = Array($recipeObject.description, $recipeObject.serving, $recipeObject.tips);
 
     SetQuillContent(QuillArray);
 
-    var tagsElementArray = Array();
-
-    for (let i = 0; i < $('#recipe_tags')[0].children.length; i++) {
-        const element = $('#recipe_tags')[0].children[i];
-        tagsElementArray.push(element);
+    for (let i = 0; i < JSON.parse($recipeObject.tags).length; i++) {
+        const id = JSON.parse($recipeObject.tags)[i];
+        AddTag(id);
     }
 
-    for (let i = 0; i < $('#recipe_equipment')[0].children.length; i++) {
-        const element = $('#recipe_equipment')[0].children[i];
-        tagsElementArray.push(element);
-    }
-
-    for (let i = 0; i < tagsElementArray.length; i++) {
-        const element = tagsElementArray[i].children[0];
-        for (let j = 0; j < JSON.parse($recipeObject.tags).length; j++) {
-            const element_2 = JSON.parse($recipeObject.tags)[j];
-            
-            if (element.value == element_2)
-            {
-                element.checked = true;
-            }
-        }
-    }
 
     var ingredients = JSON.parse($recipeObject.ingredients);
     for (let i = 0; i < ingredients.length; i++) {
-        const element = ingredients[i];
-        if (i == 0)
-        {
-            $('#recipe_ingredients')[0].children[1].children[0].children[0].value = element.amount;
-            $('#recipe_ingredients')[0].children[1].children[1].children[0].value = element.amountType;
-            $('#recipe_ingredients')[0].children[1].children[2].children[0].value = element.name;
-        }
-        else
-        {
-            AddRowIngredients(element);
-        }
+        const element = ingredients[i];        
+        AddRow(i, $('#recipe_ingredients')[0], element.amount+" "+element.amountType+" "+element.name);
     }
 
     var instructions = JSON.parse($recipeObject.instructions);
     for (let i = 0; i < instructions.length; i++) {
         const element = instructions[i];
-        if (i == 0)
-        {
-            $('#recipe_howto')[0].children[0].children[1].children[0].value = element.amountType;
-        }
-        else
-        {
-            AddRowHowTo(element);
-        }
+        AddRow(i, $('#recipe_instructions')[0], element.amountType);
     }
+}
+
+function AddRow(id, $div, dataString) {
+    var element = document.createElement("div");
+    element.appendChild(document.createElement("input"));
+    element.appendChild(document.createElement("span"));
+    element.children[0].setAttribute("type","checkbox");
+    element.children[0].name = "Instruction_"+id;
+    element.children[0].id = "Instruction_"+id;
+    element.children[1].innerText = " - "+dataString;
+
+    $div.appendChild(element);
+}
+
+function AddTag(id) {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            var temp = JSON.parse(this.response);
+            if (temp.returnCode == 's190')
+            {
+                var tagObject = document.createElement("div");
+                tagObject.appendChild(document.createElement("a"));
+                tagObject.children[0].href = "#";
+                tagObject.children[0].innerText = temp.tag;
+
+                $('#recipe_tags')[0].appendChild(tagObject);
+            }
+        }
+    };
+    xhttp.open("POST", "callback.php", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("action=GetTagName&id="+id);
 }

@@ -411,19 +411,28 @@ class DB
         {
             try
             {
-                $sql = "UPDATE `DigitalCookbook__Recipes` SET `name`='$title',`time`='$time',`portions`='$portions',`scalable`='$scalable',`tags`='$tags',`difficulty`='$difficulty',`picture`='$imageData',`description`='$description',`ingredients`='$ingredients',`instructions`='$howTo',`tips`='$tips',`serving`='$serving',`accessibility`='$accessibility' WHERE `id`='$recipeId' AND `ownerId`='$userId';";
-                
-                $stmt = $conn->prepare($sql);
+                $relationsResponseData = $this->UpdateRecipeRelation($recipeId, $userId, $category);
 
-                $stmt->execute();
-
-                if ($stmt->rowCount() > 0)
+                if ($relationsResponseData['returnCode'] != 'e211')
                 {
-                    return  json_encode(array('returnCode' => 's070', 'msg' => "Recipe was updated!", 'id' => "$recipeId"));
+                    $sql = "UPDATE `DigitalCookbook__Recipes` SET `name`='$title',`time`='$time',`portions`='$portions',`scalable`='$scalable',`tags`='$tags',`difficulty`='$difficulty',`picture`='$imageData',`description`='$description',`ingredients`='$ingredients',`instructions`='$howTo',`tips`='$tips',`serving`='$serving',`accessibility`='$accessibility' WHERE `id`='$recipeId' AND `ownerId`='$userId';";
+                
+                    $stmt = $conn->prepare($sql);
+
+                    $stmt->execute();
+
+                    if ($stmt->rowCount() > 0)
+                    {
+                        return  json_encode(array('returnCode' => 's070', 'msg' => "Recipe was updated!", 'id' => "$recipeId"));
+                    }
+                    else
+                    {
+                        return  json_encode(array('returnCode' => 's070', 'msg' => "No data was updated", 'id' => "$recipeId"));              
+                    }
                 }
                 else
                 {
-                    return  json_encode(array('returnCode' => 'e070', 'msg' => "No recipe was found"));              
+                    return  json_encode(array('returnCode' => 'e072', 'msg' => $relationsResponseData['msg']));              
                 }
 
             }

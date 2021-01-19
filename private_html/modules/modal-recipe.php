@@ -10,7 +10,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-success" data-bs-dismiss="modal" onclick="">Skapa</button>    
-            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Avbryt</button>                
+            <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Avbryt</button>                
         </div>
         </div>
     </div>
@@ -31,7 +31,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="RemoveRecipeFromServer()">Ta bort</button>    
-            <button type="button" class="btn btn-success" data-bs-dismiss="modal">Avbryt</button>                
+            <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Avbryt</button>                
         </div>
         </div>
     </div>

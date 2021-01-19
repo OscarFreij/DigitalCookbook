@@ -9,8 +9,8 @@
             Är du säker att du vill ta bort kategorin med namnet: <span id="removalModalCName">CATEGORY_NAME</span>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-success" data-bs-dismiss="modal">Ja</button>    
-            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Avbryt</button>                
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Ja</button>    
+            <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Avbryt</button>                
         </div>
         </div>
     </div>
@@ -29,7 +29,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-success" data-bs-dismiss="modal" onclick="addCategory()">Skapa</button>    
-            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Avbryt</button>                
+            <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Avbryt</button>                
         </div>
         </div>
     </div>

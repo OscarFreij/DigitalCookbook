@@ -1,12 +1,28 @@
 <div id="wrapper-main">
     <div id="wrapper-top">
-        <h1>Recept Title</h1>
-        <div id="btnPanel1">
-            <button>BTN1</button>
-            <button>BTN2</button>
+        <span id="recipe_title">Recept Title</span>
+        <div id="recipe_basicInfo">
+            <span id="recipe_portions">Portioner: <span>0</span></span>
+            <span id="recipe_time">Tillagnings tid: <span>0</span></span>
+            <span id="recipe_difficulty">Svårighetsgrad: <span>0</span></span>
+        </div>
+        <div id="btnPanel1" class="btnPanel btn-group">
+            <button class="btn btn-primary">Spara</button>
+            <button class="btn btn-primary disabled">Lägg till i inköpslista</button>
+            
+            <?php
+            if (isset($_SESSION['uid']))
+            {
+                if ($_SESSION['uid'] == $returnData['ownerId'])
+                {
+                    echo("<a href='".'?page=recipe&id='.$returnData['id'].'&edit=true'."' class='btn btn-primary'>Redigera</a>");
+                }
+            }
+            ?>
+
         </div>
         <div>
-            <h3>Description</h3>
+            <span>Beskrivning</span>
             <div id="TT1">
                 <p>Hello World!</p>
                 <p>Some initial <strong>bold</strong> text</p>
@@ -14,23 +30,21 @@
             </div>
         </div>
         <div>
-            <h3>Tags</h3>
-            <div id="tags">
-                <div><a href="#">Temp1</a></div>
-                <div><a href="#">Temp1</a></div>
-                <div><a href="#">Temp1</a></div>
+            <span>Taggar</span>
+            <div id="recipe_tags">
+
             </div>    
         </div>
         <div id="instructions-items">
-            <h3>Instructions</h3>
-            <div><input type="checkbox" name="" id="">:Temp2-2-1</div>
-            <div><input type="checkbox" name="" id="">:Temp2-2-2</div>
-            <div><input type="checkbox" name="" id="">:Temp2-2-3</div>
+            <span>Instruktioner</span>
+            <div id="recipe_instructions">
+
+            </div>
         </div>
     </div>
     <div id="wrapper-bottom">
         <div>
-            <h3>Title</h3>
+            <span>Servering</span>
             <div id="TB1">
                 <p>Hello World!</p>
                 <p>Some initial <strong>bold</strong> text</p>
@@ -38,7 +52,7 @@
             </div>
         </div>    
         <div>
-            <h3>Title</h3>
+            <span>Tips</span>
             <div id="TB2">
                 <p>Hello World!</p>
                 <p>Some initial <strong>bold</strong> text</p>
@@ -47,24 +61,25 @@
         </div>
     </div>
 </div>
-
 <div id="wrapper-side">
-    <h4>Ingredients</h4>   
-    <div id="ing-1">
-        <h4>Temp2-1 Title</h4>    
-        <div><input type="checkbox" name="" id="">:Temp2-1-1</div>
-        <div><input type="checkbox" name="" id="">:Temp2-1-2</div>
-        <div><input type="checkbox" name="" id="">:Temp2-1-3</div>
+    <img id="recipe_image" src="static/media/food.svg" alt="">
+    <span>Ingredienser</span>   
+    <div id="recipe_ingredients">
+
     </div>
-    <div id="ing-2">
-        <h4>Temp2-2 Title</h4>    
-        <div><input type="checkbox" name="" id="">:Temp2-2-1</div>
-        <div><input type="checkbox" name="" id="">:Temp2-2-2</div>
-        <div><input type="checkbox" name="" id="">:Temp2-2-3</div>
-    </div>
-    <div id="btnPanel1">
-        <button>BTN1</button>
-        <button>BTN2</button>
+    <div id="btnPanel2" class="btnPanel btn-group">
+        <button class="btn btn-primary">Spara</button>
+        <button class="btn btn-primary disabled">Lägg till i inköpslista</button>
+        
+        <?php
+        if (isset($_SESSION['uid']))
+        {
+            if ($_SESSION['uid'] == $returnData['ownerId'])
+            {
+                echo("<a href='".'?page=recipe&id='.$returnData['id'].'&edit=true'."' class='btn btn-primary'>Redigera</a>");
+            }
+        }
+        ?>
     </div>
 </div>
 <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>

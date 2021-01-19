@@ -25,8 +25,11 @@
                 echo(json_encode($dbCon->GetRecipe($_POST['id'], $_SESSION['uid']), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK));
                 break;
 
+            case 'GetRecipeOnlyID':
+                echo(json_encode($dbCon->GetRecipeOnlyID($_POST['id']), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK));
+                break;
+
             case 'CreateRecipe':
-                //var_dump(json_decode($_POST['JSON_RecipeData']));
                 echo($dbCon->CreateRecipe(json_decode($_POST['JSON_RecipeData']), $_SESSION['uid']));
                 break;
 
@@ -38,6 +41,10 @@
                 echo($dbCon->RemoveRecipe($_POST['id'], $_SESSION['uid']));
                 break;
             
+            case 'GetTagName':
+                echo(json_encode($dbCon->GetTagName($_POST['id']), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK));
+                break;
+
             default:
                 # code...
                 break;
