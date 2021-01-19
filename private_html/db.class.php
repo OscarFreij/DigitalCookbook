@@ -296,16 +296,17 @@ class DB
         $portions = $recipeData->portions;
         $scalable = $recipeData->scalable;
         $time = $recipeData->time;
-        $ingredients = json_encode($recipeData->ingredients);
-        $howTo = json_encode($recipeData->howTo);
+        $ingredients = json_encode($recipeData->ingredients, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK);
+        $howTo = json_encode($recipeData->howTo, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK);
         $description = $recipeData->description;
         $serving = $recipeData->serving;
         $tips = $recipeData->tips;
-        $tags = json_encode($recipeData->tags);
+        $tags = json_encode($recipeData->tags, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK);
         $difficulty = $recipeData->difficulty;
         $category = $recipeData->category;
         $accessibility = $recipeData->accessibility;
 
+        
 
         if(isset($conn))
         {
@@ -380,14 +381,79 @@ class DB
         }
     }
 
-    public function UpdateRecipe($recipeId, $recipeData)
+    public function UpdateRecipe($recipeId, $recipeData, $userId)
     {
-        //070
+        Global $conn;
+
+        $title = $recipeData->title;        
+        if (isset($recipeData->imageData))
+        {
+            $imageData = $recipeData->imageData;
+        }
+        else
+        {
+            $imageData = "";
+        }
+        $portions = $recipeData->portions;
+        $scalable = $recipeData->scalable;
+        $time = $recipeData->time;
+        $ingredients = json_encode($recipeData->ingredients, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK);
+        $howTo = json_encode($recipeData->howTo, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK);
+        $description = $recipeData->description;
+        $serving = $recipeData->serving;
+        $tips = $recipeData->tips;
+        $tags = json_encode($recipeData->tags, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK);
+        $difficulty = $recipeData->difficulty;
+        $category = $recipeData->category;
+        $accessibility = $recipeData->accessibility;
+
+        if(isset($conn))
+        {
+            try
+            {
+                $sql = "UPDATE `DigitalCookbook__Recipes` SET `name`='$title',`time`='$time',`portions`='$portions',`scalable`='$scalable',`tags`='$tags',`difficulty`='$difficulty',`picture`='$imageData',`description`='$description',`ingredients`='$ingredients',`instructions`='$howTo',`tips`='$tips',`serving`='$serving',`accessibility`='$accessibility' WHERE `id`='$recipeId' AND `ownerId`='$userId';";
+                
+                $stmt = $conn->prepare($sql);
+
+                $stmt->execute();
+
+                if ($stmt->rowCount() > 0)
+                {
+                    return  json_encode(array('returnCode' => 's070', 'msg' => "Recipe was updated!", 'id' => "$recipeId"));
+                }
+                else
+                {
+                    return  json_encode(array('returnCode' => 'e070', 'msg' => "No recipe was found"));              
+                }
+
+            }
+            catch(PDOException $e)
+            {
+                return  json_encode(array('returnCode' => 'e071', 'msg' => "UpdateRecipe: ".$e->getMessage())); 
+            }
+        }
     }
 
-    public function RemoveRecipe($recipeId)
+    public function RemoveRecipe($recipeId, $userId)
     {
-        //080
+        Global $conn;
+
+        if(isset($conn))
+        {
+            try
+            {
+                $sql = "DELETE FROM `DigitalCookbook__Recipes` WHERE `id`='$recipeId' AND `ownerId`='$userId';";
+                
+                $conn->exec($sql);
+
+                return  json_encode(array('returnCode' => 's080', 'msg' => "Recipe was deleted!"));              
+                
+            }
+            catch(PDOException $e)
+            {
+                return  json_encode(array('returnCode' => 'e080', 'msg' => "RemoveRecipe: ".$e->getMessage())); 
+            }
+        }
     }
     
     public function AddRecipeRelation($recipeId, $userId, $folderId)
@@ -409,6 +475,61 @@ class DB
             catch(PDOException $e)
             {
                 return  array('returnCode' => 'e090', 'msg' => "AddRecipeRelation: ".$e->getMessage()); 
+            }
+        }
+    }
+
+    public function UpdateRecipeRelation($recipeId, $userId, $folderId)
+    {
+        Global $conn;
+
+
+        if(isset($conn))
+        {
+            try
+            {
+                $sql = "UPDATE `DigitalCookbook__Relations` SET `folderId`='$folderId' WHERE `recipeId`='$recipeId' AND `reciverId`='$userId';";
+                
+                $stmt = $conn->prepare($sql);
+
+                $stmt->execute();
+
+                if ($stmt->rowCount() > 0)
+                {
+                    return  array('returnCode' => 's210', 'msg' => "Relation was updated!");              
+                }
+                else
+                {
+                    return  array('returnCode' => 'e210', 'msg' => "No relation was found");              
+                }
+
+            }
+            catch(PDOException $e)
+            {
+                return  array('returnCode' => 'e211', 'msg' => "UpdateRecipeRelation: ".$e->getMessage()); 
+            }
+        }
+    }
+
+    public function RemoveRecipeRelation($recipeId, $userId)
+    {
+        Global $conn;
+
+
+        if(isset($conn))
+        {
+            try
+            {
+                $sql = "DELETE FROM `DigitalCookbook__Relations` WHERE `recipeId`='$recipeId' AND `reciverId`='$userId';";
+                
+                $conn->exec($sql);
+
+                return  array('returnCode' => 's220', 'msg' => "Relation was deleted!");              
+                
+            }
+            catch(PDOException $e)
+            {
+                return  array('returnCode' => 'e220', 'msg' => "RemoveRecipeRelation: ".$e->getMessage()); 
             }
         }
     }

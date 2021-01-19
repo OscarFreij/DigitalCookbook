@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", function()
                 console.log(this.responseText);
                 PutContent(JSON.parse(this.response));
                 responsDATA = JSON.parse(this.response);
+                AddRemoveBtn(responsDATA.id);
            }
         };
         xhttp.open("POST", "callback.php", true);
@@ -96,6 +97,20 @@ function GetURLID()
     }
 }
 
+function AddRemoveBtn(id) {
+    
+    var element = document.createElement("button");
+    element.classList.add("btn")
+    element.classList.add("btn-danger")
+    element.id = "deleteBtn";
+
+    element.appendChild(document.createTextNode("Ta bort recept"));
+    element.setAttribute("data-bs-toggle", "modal");
+    element.setAttribute("data-bs-target", "#ConfirmRemovalModal")
+
+    $('#buttonPanel')[0].appendChild(element);
+}
+
 function PutContent($recipeObject) {
     
 
@@ -108,6 +123,7 @@ function PutContent($recipeObject) {
         $('#container_img')[0].children[$('#container_img')[0].children.length-1].style.width = "288px";
         $('#container_img')[0].children[$('#container_img')[0].children.length-1].style.height = "288px";
         $('#container_img')[0].children[$('#container_img')[0].children.length-1].style.alignSelf = "center";
+        imageData = decodeURIComponent(atob($recipeObject.picture));
     }
 
     $('#recipe_title')[0].value = $recipeObject.name;
@@ -126,16 +142,16 @@ function PutContent($recipeObject) {
     $('#recipe_time')[0].value = $recipeObject.time;
 
     switch ($recipeObject.difficulty) {
-        case "0":
+        case 0:
             $('#recipe_difficulty_fast')[0].checked = true;
             break;
-        case "1":
+        case 1:
             $('#recipe_difficulty_basic')[0].checked = true;
             break;
-        case "2":
+        case 2:
             $('#recipe_difficulty_avrage')[0].checked = true;
             break;
-        case "3":
+        case 3:
             $('#recipe_difficulty_advanced')[0].checked = true;
             break;
     }
@@ -199,13 +215,6 @@ function PutContent($recipeObject) {
             AddRowHowTo(element);
         }
     }
-    
-    /*
-        'instructions' => $recipeData[0]['instructions'],
-    */
-    
-
-    
 }
 
 function AddRowIngredients($data = null)
@@ -268,11 +277,12 @@ function AddRowHowTo($data = null)
 
     row.children[1].classList.add("tRowItem");
     row.children[1].appendChild(document.createElement("input"))
-    row.children[1].setAttribute("type", "text");
+    row.children[1].children[0].setAttribute("type", "text");
     
     if ($data != null)
     {
-        row.children[1].value = $data.amountType;
+        row.children[1].children[0].value = $data.amountType;
+        console.log($data.amountType);
     }
 
     $('#recipe_howto')[0].appendChild(row);
@@ -482,8 +492,27 @@ function SendToServer($debugMessage = null)
     {
         xhttp.send("action="+action+"&JSON_RecipeData="+$debugMessage);
     }
+    else if (action == "UpdateRecipe")
+    {
+        xhttp.send("action="+action+"&id="+responsDATA.id+"&JSON_RecipeData="+JSON.stringify(recipeObject));   
+    }
     else
     {
         xhttp.send("action="+action+"&JSON_RecipeData="+JSON.stringify(recipeObject));   
     }
+}
+
+function RemoveRecipeFromServer() {
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            console.log(this.responseText);
+
+            location.href = window.location.href.substr(0,window.location.href.length - window.location.search.length) + "/?page=cookbook";
+       }
+    };
+    xhttp.open("POST", "callback.php", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("action=DeleteRecipe&id="+responsDATA.id);
 }

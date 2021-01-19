@@ -60,7 +60,7 @@
                     echo('<link rel="stylesheet" href="static/css/media-edit-recipe.css">');
                     echo('<script src="static/js/edit-recipe.js"></script>');
                 }
-                else if ($_GET['edit'] == "true")
+                else if ($_GET['edit'] == "false")
                 {
                     echo('<link rel="stylesheet" href="static/css/view-recipe.css">');
                     echo('<link rel="stylesheet" href="static/css/media-view-recipe.css">');
@@ -72,6 +72,12 @@
                     echo('<link rel="stylesheet" href="static/css/media-view-recipe.css">');
                     echo('<script src="static/js/view-recipe.js"></script>');
                 }
+            }
+            else
+            {
+                echo('<link rel="stylesheet" href="static/css/view-recipe.css">');
+                echo('<link rel="stylesheet" href="static/css/media-view-recipe.css">');
+                echo('<script src="static/js/view-recipe.js"></script>');
             }
         }
         else

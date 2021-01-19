@@ -35,7 +35,7 @@
     <div id="container_ingredients">
         <h2>Ingredienser</h2>
         <div id ="recipe_ingredients">
-            <div class="tRow"><div class="tRowItem">Mängd</div><div class="tRowItem">Enhet</div><div class="tRowItem">Ingridiens</div></div>
+            <div class="tRow"><div class="tRowItem">Mängd</div><div class="tRowItem">Enhet</div><div class="tRowItem">Ingrediens</div></div>
             <div class="tRow"><div class="tRowItem"><input type="text"></div><div class="tRowItem"><input type="text"></div><div class="tRowItem"><input type="text"></div></div>
         </div>
         <div class="btn-group">
@@ -135,7 +135,7 @@
             </select>
         </div>
     </div>
-    <div>
+    <div id="buttonPanel" class="btn-group">
         <button id="saveBtn" class="btn btn-success" onClick="SaveRecipe()">Spara</button>
     </div>
 </div>

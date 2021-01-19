@@ -150,3 +150,9 @@ input
     display: flex;
     flex-direction: column;
 }
+
+#buttonPanel
+{
+    display: flex;
+    flex-direction: row;
+}

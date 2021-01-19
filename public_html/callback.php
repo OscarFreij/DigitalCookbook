@@ -22,12 +22,22 @@
                 break;
 
             case 'GetRecipe':
-                echo(json_encode($dbCon->GetRecipe($_POST['id'], $_SESSION['uid'])));
+                echo(json_encode($dbCon->GetRecipe($_POST['id'], $_SESSION['uid']), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK));
                 break;
 
             case 'CreateRecipe':
+                //var_dump(json_decode($_POST['JSON_RecipeData']));
                 echo($dbCon->CreateRecipe(json_decode($_POST['JSON_RecipeData']), $_SESSION['uid']));
                 break;
+
+            case 'UpdateRecipe':
+                echo($dbCon->UpdateRecipe($_POST['id'], json_decode($_POST['JSON_RecipeData']), $_SESSION['uid']));
+                break;
+
+            case 'DeleteRecipe':
+                echo($dbCon->RemoveRecipe($_POST['id'], $_SESSION['uid']));
+                break;
+            
             default:
                 # code...
                 break;

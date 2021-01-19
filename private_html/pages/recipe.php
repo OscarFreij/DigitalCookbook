@@ -78,20 +78,7 @@ else
         }
         else
         {
-            if ($returnData['accessibility'] == 1)
-            {
-                $returnData_2 = $dbCon->GetRecipeUserRelation($_GET['id'], $userId);
-
-                if ($returnData_2['returnCode'] == 's200')
-                {
-                    Include($modulePath."view-recipe.php");
-                }
-                else
-                {
-                    echo("ERROR 403 - ACCESS DENIED!");
-                }
-            }
-            else if ($returnData['accessibility'] == 0)
+            if ($returnData['accessibility'] == 0)
             {
                 if ($returnData['ownerId'] == $userId)
                 {
@@ -103,7 +90,7 @@ else
                 }
 
             }
-            else if ($returnData['accessibility'] == 2)
+            else if ($returnData['accessibility'] == 1 || $returnData['accessibility'] == 2)
             {
                 Include($modulePath."view-recipe.php");
             }
