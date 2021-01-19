@@ -45,6 +45,18 @@
                 echo(json_encode($dbCon->GetTagName($_POST['id']), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK));
                 break;
 
+            case 'AddRelation':
+                echo(json_encode($dbCon->AddRecipeRelation($_POST['id'], $_SESSION['uid'], $_POST['fid']), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK));
+                break;
+
+            case 'RemoveRelation':
+                echo(json_encode($dbCon->RemoveRecipeRelation($_POST['id'], $_SESSION['uid']), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK));
+                break;
+            
+            case 'GetCategoriesForSelection':
+                echo(json_encode($dbCon->GetCategoriesForSelection($_SESSION['uid']), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK));
+                break;
+    
             default:
                 # code...
                 break;

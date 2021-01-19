@@ -7,7 +7,21 @@
             <span id="recipe_difficulty">Svårighetsgrad: <span>0</span></span>
         </div>
         <div id="btnPanel1" class="btnPanel btn-group">
-            <button class="btn btn-primary">Spara</button>
+            <?php
+            if (isset($_SESSION['uid']))
+            {
+                $responsTemp = $dbCon->GetRecipeUserRelation($_GET['id'], $_SESSION['uid']);
+
+                if ($responsTemp['returnCode'] == 's201')
+                {
+                    echo("<button class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#SelectNewCategoryModal'>Spara</button>");
+                }
+                else if ($responsTemp['returnCode'] == 's200')
+                {
+                    echo("<button class='btn btn-primary' onclick='RemoveRelations()'>Sparad</button>");
+                }
+            }
+            ?>
             <button class="btn btn-primary disabled">Lägg till i inköpslista</button>
             
             <?php
@@ -68,7 +82,22 @@
 
     </div>
     <div id="btnPanel2" class="btnPanel btn-group">
-        <button class="btn btn-primary">Spara</button>
+        <?php
+        if (isset($_SESSION['uid']))
+        {
+            $responsTemp = $dbCon->GetRecipeUserRelation($_GET['id'], $_SESSION['uid']);
+
+            if ($responsTemp['returnCode'] == 's201')
+            {
+                echo("<button class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#SelectNewCategoryModal'>Spara</button>");
+            }
+            else if ($responsTemp['returnCode'] == 's200')
+            {
+                echo("<button class='btn btn-primary' onclick='RemoveRelations()'>Sparad</button>");
+            }
+        }
+        ?>
+        
         <button class="btn btn-primary disabled">Lägg till i inköpslista</button>
         
         <?php

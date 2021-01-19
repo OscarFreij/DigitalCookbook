@@ -27,10 +27,31 @@
         </div>
         <div class="modal-body">
             <span>Är du säker att du vill ta bort detta recept?</span>
-            <span class=".text-danger">Detta kan inte ångras då den tars bort permanent!</span>
+            <span class="text-danger">Detta kan inte ångras då den tars bort permanent!</span>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="RemoveRecipeFromServer()">Ta bort</button>    
+            <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Avbryt</button>                
+        </div>
+        </div>
+    </div>
+</div>
+
+<!-- SelectNewCategoryModal -->
+<div class="modal fade" id="SelectNewCategoryModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel_3" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel_3">Spara recept</h5>
+        </div>
+        <div class="modal-body">
+            <span>Välj en kategori i din bok att lägga detta recept:</span>
+            <select name="saveRecipeSelection" id="saveRecipeSelection">
+
+            </select>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-success" data-bs-dismiss="modal" onclick="AddRelation()">Lägg till</button>    
             <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Avbryt</button>                
         </div>
         </div>

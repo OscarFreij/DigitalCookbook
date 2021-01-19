@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", function()
             if (this.readyState == 4 && this.status == 200) {
                 responsDATA = JSON.parse(this.response);
                 PutContent(JSON.parse(this.response));
+                AddRecipeSelectionItems();
            }
         };
         xhttp.open("POST", "callback.php", true);
@@ -183,4 +184,68 @@ function AddTag(id) {
     xhttp.open("POST", "callback.php", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("action=GetTagName&id="+id);
+}
+
+function AddRelation() {
+    var selectedCategoryId = $('#saveRecipeSelection')[0].value;
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            $('.btnPanel')[0].children[0].innerText = "Sparad";
+            $('.btnPanel')[1].children[0].innerText = "Sparad";
+            
+            $('.btnPanel')[0].children[0].setAttribute("onclick","RemoveRelations()");
+            $('.btnPanel')[1].children[0].setAttribute("onclick","RemoveRelations()");
+
+            $('.btnPanel')[0].children[0].removeAttribute("data-bs-toggle");
+            $('.btnPanel')[0].children[0].removeAttribute("data-bs-target");
+
+            $('.btnPanel')[1].children[0].removeAttribute("data-bs-toggle");
+            $('.btnPanel')[1].children[0].removeAttribute("data-bs-target");
+        }
+    };
+    xhttp.open("POST", "callback.php", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("action=AddRelation&id="+responsDATA.id+"&fid="+selectedCategoryId);
+}
+
+function RemoveRelations() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            $('.btnPanel')[0].children[0].innerText = "Spara";
+            $('.btnPanel')[1].children[0].innerText = "Spara";
+
+            $('.btnPanel')[0].children[0].removeAttribute("onclick");
+            $('.btnPanel')[1].children[0].removeAttribute("onclick");
+
+            $('.btnPanel')[0].children[0].setAttribute("data-bs-toggle", "modal");
+            $('.btnPanel')[0].children[0].setAttribute("data-bs-target", "#SelectNewCategoryModal");
+
+            $('.btnPanel')[1].children[0].setAttribute("data-bs-toggle", "modal");
+            $('.btnPanel')[1].children[0].setAttribute("data-bs-target", "#SelectNewCategoryModal");
+        }
+    };
+    xhttp.open("POST", "callback.php", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("action=RemoveRelation&id="+responsDATA.id);
+}
+
+function AddRecipeSelectionItems() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            var response = JSON.parse(this.responseText);
+            
+            for (let i = 0; i < response.categories.length; i++) {
+                const element = response.categories[i];
+                
+                $('#saveRecipeSelection')[0].appendChild($.parseHTML(element)[0]);
+
+            }
+        }
+    };
+    xhttp.open("POST", "callback.php", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("action=GetCategoriesForSelection");  
 }
