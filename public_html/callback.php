@@ -56,6 +56,10 @@
             case 'GetCategoriesForSelection':
                 echo(json_encode($dbCon->GetCategoriesForSelection($_SESSION['uid']), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK));
                 break;
+
+            case 'GetRecipesInInterval':
+                echo(json_encode($dbCon->GetRecipesInInterval($_POST['offset'], $_POST['rowCount']), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK));
+                break;
     
             default:
                 # code...

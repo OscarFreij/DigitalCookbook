@@ -117,5 +117,5 @@
 
 .disabled
 {
-    cursor: pointer;
+    cursor: default!important;
 }

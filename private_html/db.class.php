@@ -279,6 +279,8 @@ class DB
             }
         }
     }
+
+    
     
     public function CreateRecipe($recipeData, $userId)
     {
@@ -685,6 +687,103 @@ class DB
         
     }
 
+    public function GetRecipesInInterval($offset, $rowFetchCount)
+    {
+
+        Global $conn;
+
+        $rowArray = array();
+        try
+        {
+            if(isset($conn))
+            {
+                try
+                {
+                    $stmt = $conn->prepare("SELECT * FROM DigitalCookbook__Recipes WHERE `accessibility` = '2' ORDER BY `id` DESC LIMIT $offset,$rowFetchCount;");
+                    $stmt->execute();
+
+                    $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+                    $recipeData = $stmt->fetchAll();
+
+                    if ($stmt->rowCount() > 0)
+                    {
+                        for ($i=0; $i < $stmt->rowCount(); $i++) { 
+                            $data = $recipeData[$i];
+
+
+                            $id = $data['id'];
+                            $name = $data['name'];
+                            $time = $data['time'];
+                            $portions = $data['portions'];
+                            $tags = json_decode($data['tags']);
+                            $difficulty = $data['difficulty'];
+                            $picture = $data['picture'];
+
+                            $tagsElement = "";
+
+                            foreach ($tags as $key => $value)
+                            {
+                                $tagResponse = $this->GetTagName($value);
+                                if ($tagResponse['returnCode'] == "s190")
+                                {
+                                    $tagsElement = $tagsElement."<p>".$tagResponse['tag']."</p>";
+                                }
+                                else
+                                {
+                                    $tagsElement = $tagsElement."<p>".$tagResponse['msg']."</p>";
+                                }
+                            }
+
+                            switch ($difficulty) {
+                                case 0:
+                                    $difficulty = "Snabb";
+                                    break;
+                                case 1:
+                                    $difficulty = "Basic";
+                                    break;
+                                case 2:
+                                    $difficulty = "Normal";
+                                    break;
+                                case 3:
+                                    $difficulty = "Advancerad";
+                                    break;
+                                default:
+                                    $difficulty = "Okänd";
+                                    break;
+                            }
+
+                            $temp = "<div id='recipe_$id' class='list-group-item list-group-item-action recipeRow'>".
+                            "<a href='?page=recipe&id=$id'>".
+                            "<img style='height: 144px; width: 144px' src='".urldecode(base64_decode($picture))."'></img>".
+                            "<h3>$name</h3>".
+                            "<p>Tillagnings tid: $time min</p>".
+                            "<p>Portioner: $portions</p>".
+                            "<div>Taggar:".
+                            $tagsElement.
+                            "</div>".
+                            "<p>Svårighetsgrad: $difficulty</p>".
+                            "</a>".
+                            "</div>";
+
+                            array_push($rowArray, $temp);
+                        }
+                        return array('returnCode' => 's230', 'msg' => "Returning recipe rows", 'rows' => $rowArray); 
+                    }
+                    else
+                    {
+                        return array('returnCode' => 'e230', 'msg' => "No more rows in DB"); 
+                    }  
+                }
+                catch(PDOException $e)
+                {
+                    return array('returnCode' => 'e231', 'msg' => $e->getMessage()); 
+                }
+            }
+        } catch (Exception $e) {
+            return array('returnCode' => "e232", "msg" => $e->getMessage());
+        }
+    }
     //-- Recepie Management Functions End --//
 
     //-- Category Management Functions Start --//

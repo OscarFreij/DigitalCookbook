@@ -1,0 +1,41 @@
+#wrapper-content
+{
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 3.8rem;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+    overflow-y: auto;
+}
+
+#btnPanel
+{
+    width: 80%;
+    margin: 10px;
+    padding: 10px;
+    align-self: center;
+}
+
+
+.recipeRow > *
+{
+    text-decoration: none!important;
+    display: grid;
+    grid-template-rows: minmax(120px, auto);
+    grid-template-columns: 1fr 2fr 1fr 1fr 1fr 1fr;
+}
+
+.recipeRow
+{
+    transition-duration: 0.25s;
+}
+
+.recipeRow:hover
+{
+    background-color: rgb(216, 216, 216);
+    transition-duration: 0.25s;
+    border: solid gray 2px;
+}
