@@ -3,11 +3,27 @@ session_start();
 require_once '../private_html/vendor/autoload.php';
 $path = ($_SERVER["REQUEST_SCHEME"]."://".$_SERVER['HTTP_HOST']);
 
-// init configuration
-$clientID = '1052123898844-shrrjfm0l5lnn7atklutvfrhgcsrnvkk.apps.googleusercontent.com';
-$clientSecret = 'oGQQ42ts4hdA2LAY6g2a-goN';
-//$redirectUri = $path.'public_html/redirect.php';
-$redirectUri = "https://18osfr.ssis.nu/GYProjekt/?page=redirect";
+$accessFilePath = "../private_html/client_secret.json";
+
+try
+{
+    $myfile = fopen($accessFilePath, "r") or die("Unable to open file!");
+    $fileContent = fread($myfile,filesize($accessFilePath));
+    fclose($myfile);
+
+    $data = json_decode($fileContent, true)['web'];
+
+    // init configuration
+    $clientID = $data['client_id'];
+    $clientSecret = $data['client_secret'];
+    $redirectUri = "https://18osfr.ssis.nu/GYProjekt/?page=redirect";
+
+}
+catch (Exeptiopn $e)
+{
+    echo "Error: $e";
+}
+
   
 // create Client Request to access Google API
 $client = new Google_Client();
